@@ -1,0 +1,3779 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8">
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title>D-IMPACT Dashboard</title>
+
+    <meta name="description" content="Portal D-IMPACT untuk mengelola program kerja bidang." />
+    <meta name="keywords" content="D-IMPACT, program kerja, riset, teknologi, mutu" />
+
+    <link href="/dashboard/stylesheets/normalize.css" rel="stylesheet" type="text/css" /><link href="/dashboard/stylesheets/all.css" rel="stylesheet" type="text/css" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <script src="/dashboard/javascripts/modernizr.js" type="text/javascript"></script>
+
+
+    <link href="/dashboard/images/favicon.png" rel="icon" type="image/png" />
+
+    <style>
+      body {
+        font-family: "Roboto", Arial, sans-serif;
+        color: #172033;
+        background: #f8fafc;
+      }
+
+      .main-menu-wrap {
+        max-width: 1000px;
+        margin: 30px auto 32px;
+        padding: 0 24px;
+      }
+
+      .landing-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        min-height: 56px;
+        padding: 0 28px;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+      }
+
+      .landing-logo {
+        display: block;
+        width: 136px;
+        max-width: 100%;
+        height: auto;
+      }
+
+      .landing-tagline {
+        margin: 0;
+        color: #475569;
+        font-size: 0.72rem;
+        font-weight: 600;
+        letter-spacing: 0.025em;
+        line-height: 1.4;
+        text-align: right;
+      }
+
+      .welcome-intro {
+        margin: 0 auto 24px;
+        text-align: center;
+      }
+
+      .welcome-intro h2 {
+        margin: 0 0 7px;
+        color: #111827;
+        font-size: clamp(1.5rem, 3vw, 1.9rem);
+      }
+
+      .welcome-intro p {
+        margin: 0;
+        color: #64748b;
+      }
+
+      .workspace-list-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 0 2px 10px;
+        color: #475569;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+
+      .workspace-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .workspace-card {
+        display: block;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 17px;
+        box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+        padding: 24px 22px;
+        text-decoration: none;
+        color: #1f2937;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      }
+
+      .workspace-card:hover,
+      .workspace-card:focus-visible {
+        transform: translateY(-3px);
+        border-color: #93c5fd;
+        box-shadow: 0 10px 24px rgba(37, 99, 235, 0.12);
+        outline: none;
+      }
+
+      .workspace-card-top {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+      }
+
+      .workspace-card .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        border-radius: 14px;
+        background: #edf4ff;
+        color: #2563eb;
+        font-size: 20px;
+      }
+
+      .workspace-count {
+        padding: 6px 11px;
+        border-radius: 999px;
+        background: #f1f5f9;
+        color: #334155;
+        font-size: 0.68rem;
+        font-weight: 700;
+      }
+
+      .workspace-number {
+        margin-bottom: 7px;
+        color: #2563eb;
+        font-size: 0.68rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+      }
+
+      .workspace-card h3 {
+        margin: 0 0 9px;
+        color: #111827;
+        font-size: 1.02rem;
+        line-height: 1.35;
+      }
+
+      .workspace-card p {
+        margin: 0;
+        color: #718096;
+        font-size: 0.85rem;
+        line-height: 1.5;
+      }
+
+      .landing-footer {
+        margin: 46px 0 10px;
+        color: #94a3b8;
+        font-size: 0.72rem;
+        text-align: center;
+      }
+
+      .dashboard-shell {
+        max-width: 1320px;
+        margin: 24px auto 40px;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 22px;
+        box-shadow: 0 16px 40px rgba(15, 23, 42, 0.07);
+        overflow: hidden;
+      }
+
+      .dashboard-shell[data-theme="blue"] {
+        --workspace-accent: #2563eb;
+        --workspace-accent-soft: #eaf1ff;
+      }
+
+      .dashboard-shell[data-theme] .company-logo {
+        border-color: var(--workspace-accent);
+      }
+
+      .dashboard-shell[data-theme] .btn-primary {
+        background: var(--workspace-accent);
+        box-shadow: 0 7px 16px rgba(15, 23, 42, 0.14);
+      }
+
+      .dashboard-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        background: #fff;
+        border-bottom: 1px solid #e2e8f0;
+        padding: 16px 24px;
+      }
+
+      .dashboard-brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .brand-logo {
+        display: block;
+        width: 136px;
+        height: auto;
+      }
+
+      .brand-text {
+        display: flex;
+        align-items: center;
+        min-height: 28px;
+        padding-left: 12px;
+        border-left: 1px solid #e1e8f2;
+      }
+
+      .brand-text small {
+        color: #607087;
+        font-size: 0.78rem;
+        font-weight: 600;
+      }
+
+      .dashboard-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 8px;
+      }
+
+      .dashboard-actions .btn i,
+      .dashboard-toolbar .btn i {
+        margin-right: 6px;
+      }
+
+      .database-status {
+        padding: 7px 11px;
+        border: 1px solid #f5d894;
+        border-radius: 999px;
+        background: #fff9e8;
+        color: #9a5b05;
+        font-size: 0.73rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .database-status.saved {
+        border-color: #bde8cf;
+        background: #effbf4;
+        color: #167447;
+      }
+
+      .database-status.error {
+        border-color: #fecaca;
+        background: #fef2f2;
+        color: #b91c1c;
+      }
+
+      .database-error,
+      .form-error {
+        padding: 11px 14px;
+        border: 1px solid #fecaca;
+        border-radius: 10px;
+        background: #fef2f2;
+        color: #b91c1c;
+        font-size: 0.85rem;
+      }
+
+      .database-error {
+        margin: 0 22px 14px;
+      }
+
+      .database-error[hidden],
+      .form-error[hidden] {
+        display: none;
+      }
+
+      .form-error {
+        grid-column: 1 / -1;
+        margin: 0;
+      }
+
+      .btn {
+        border: 1px solid #d9e2ef;
+        background: #fff;
+        color: #1f2937;
+        border-radius: 11px;
+        padding: 10px 14px;
+        font-size: 0.84rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      }
+
+      .btn-light {
+        background: #fff;
+      }
+
+      .btn:hover {
+        transform: translateY(-2px);
+        border-color: #b8c8dd;
+        box-shadow: 0 5px 12px rgba(30, 64, 110, 0.08);
+      }
+
+      .btn:focus-visible,
+      .filter-btn:focus-visible {
+        outline: 3px solid rgba(37, 99, 235, 0.2);
+        outline-offset: 2px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #1d4ed8, #168fe2);
+        color: #fff;
+        border: none;
+        border-radius: 12px;
+        padding: 12px 18px;
+        font-weight: 700;
+        box-shadow: 0 7px 16px rgba(37, 99, 235, 0.2);
+      }
+
+      .btn-mini {
+        font-size: 0.8rem;
+        padding: 6px 10px;
+      }
+
+      .dashboard-toolbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 16px 24px 10px;
+      }
+
+      .breadcrumb {
+        background: #edf3ff;
+        color: #1f3c88;
+        border: 1px solid #d8e5ff;
+        padding: 10px 16px;
+        border-radius: 10px;
+        font-weight: 600;
+      }
+
+      .dashboard-header-row {
+        padding: 0 24px 20px;
+      }
+
+      .company-block {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 12px 0 0;
+      }
+
+      .company-logo {
+        flex: 0 0 46px;
+        width: 46px;
+        height: 46px;
+        border: 1px solid #e6edf6;
+        border-radius: 12px;
+        background: #fff;
+        object-fit: contain;
+      }
+
+      .company-block h2 {
+        margin: 0;
+        font-size: 1.7rem;
+        color: #1f2937;
+      }
+
+      .company-heading {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .company-area {
+        padding: 5px 11px;
+        border-radius: 999px;
+        background: var(--workspace-accent-soft, #eaf1ff);
+        color: var(--workspace-accent, #2563eb);
+        font-size: 0.75rem;
+        font-weight: 700;
+      }
+
+      .company-block p {
+        margin: 4px 0 0;
+        color: #64748b;
+        font-size: 0.88rem;
+      }
+
+      .dashboard-filters {
+        display: grid;
+        grid-template-columns: minmax(260px, 1.6fr) minmax(180px, 0.9fr) minmax(150px, 0.9fr) auto;
+        gap: 12px;
+        margin: 0 24px 2px;
+        padding: 14px;
+        border: 1px solid #e1e8f2;
+        border-radius: 16px;
+        background: #fff;
+        box-shadow: 0 5px 16px rgba(30, 64, 110, 0.04);
+      }
+
+      .dashboard-filters input,
+      .dashboard-filters select {
+        width: 100%;
+        min-height: 44px;
+        border: 1px solid #dce5f1;
+        border-radius: 11px;
+        padding: 0 14px;
+        background: #f9fbfe;
+        color: #172033;
+        font: inherit;
+        font-size: 0.84rem;
+      }
+
+      .dashboard-filters input:focus,
+      .dashboard-filters select:focus {
+        outline: 3px solid rgba(37, 99, 235, 0.12);
+        border-color: #8eb6f5;
+        background: #fff;
+      }
+
+      .filter-btn {
+        width: 44px;
+        min-height: 44px;
+        border: 1px solid #dce5f1;
+        border-radius: 11px;
+        background: #fff;
+        color: #52657e;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease, color 0.3s ease;
+      }
+
+      .filter-btn:hover {
+        transform: translateY(-2px);
+        background: #eff6ff;
+        color: #2563eb;
+        box-shadow: 0 5px 12px rgba(30, 64, 110, 0.08);
+      }
+
+      .filter-empty-state {
+        padding: 18px;
+        color: #6b7280;
+        text-align: center;
+      }
+
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 15px;
+        padding: 20px 24px 22px;
+      }
+
+      .stat-card {
+        position: relative;
+        overflow: hidden;
+        background: #fff;
+        border: 1px solid #e1e8f2;
+        border-left: 4px solid #2563eb;
+        border-radius: 17px;
+        padding: 18px 19px 16px;
+        min-height: 148px;
+        box-shadow: 0 6px 18px rgba(30, 64, 110, 0.045);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .stat-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 11px 24px rgba(30, 64, 110, 0.09);
+      }
+
+      .stat-card.purple {
+        border-left-color: #6d5ce8;
+      }
+
+      .stat-card.green {
+        border-left-color: #0a9c71;
+      }
+
+      .stat-card.orange {
+        border-left-color: #e58b13;
+      }
+
+      .stat-label {
+        max-width: calc(100% - 44px);
+        font-size: 0.72rem;
+        font-weight: 700;
+        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 0.045em;
+        line-height: 1.35;
+      }
+
+      .stat-value {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: #172033;
+        margin: 9px 0 0;
+        line-height: 1;
+      }
+
+      .stat-meta {
+        color: #607087;
+        margin-top: 9px;
+        font-size: 0.78rem;
+      }
+
+      .stat-foot {
+        margin-top: 12px;
+        color: #62728a;
+        font-size: 0.74rem;
+      }
+
+      .stat-icon {
+        position: absolute;
+        top: 16px;
+        right: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+        background: #edf4ff;
+        color: #2563eb;
+        font-size: 16px;
+      }
+
+      .stat-card.purple .stat-icon {
+        background: #f0edff;
+        color: #6d5ce8;
+      }
+
+      .stat-card.green .stat-icon {
+        background: #e8f8f2;
+        color: #0a9c71;
+      }
+
+      .stat-card.orange .stat-icon {
+        background: #fff4e3;
+        color: #d97706;
+      }
+
+      .panel {
+        background: #fff;
+        border: 1px solid #e1e8f2;
+        border-radius: 18px;
+        min-height: 320px;
+        box-shadow: 0 6px 18px rgba(30, 64, 110, 0.045);
+      }
+
+      .panel-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 20px 12px;
+      }
+
+      .panel-header h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #1f2937;
+      }
+
+      .panel-header small {
+        display: block;
+        color: #6b7280;
+        margin-top: 4px;
+      }
+
+      .pill {
+        background: #f3f4f6;
+        color: #374151;
+        border-radius: 999px;
+        padding: 6px 10px;
+        font-weight: 600;
+      }
+
+      .project-progress-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+        padding: 0 22px 22px;
+      }
+
+      .project-progress-card {
+        min-width: 0;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .project-progress-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 11px 24px rgba(30, 64, 110, 0.09);
+      }
+
+      .project-progress-card .panel-header h3 {
+        font-size: 0.92rem;
+        white-space: nowrap;
+      }
+
+      .project-progress-card .panel-header {
+        gap: 10px;
+      }
+
+      .project-progress-title-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+      }
+
+      .project-progress-headline-value {
+        color: #2563eb;
+        font-size: 0.92rem;
+        font-weight: 800;
+        white-space: nowrap;
+      }
+
+      .project-progress-card[data-project="RKAP"] .project-progress-headline-value {
+        color: #ea580c;
+      }
+
+      .project-progress-card[data-project="Counterpart"] .project-progress-headline-value {
+        color: #8b5cf6;
+      }
+
+      .project-progress-card[data-project="Engineering Services"] .project-progress-headline-value {
+        color: #00a879;
+      }
+
+      .project-view-toggle {
+        display: inline-flex;
+        flex-shrink: 0;
+        padding: 3px;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        background: #f8fafc;
+      }
+
+      .project-progress-chart {
+        position: relative;
+        height: 240px;
+        padding: 10px 18px 18px;
+      }
+
+      .project-progress-chart canvas {
+        width: 100% !important;
+        height: 100% !important;
+      }
+
+      .project-progress-chart[hidden],
+      .project-tracking-fields[hidden] {
+        display: none;
+      }
+
+      .project-view-toggle-button {
+        min-height: 30px;
+        padding: 5px 8px;
+        border: 0;
+        border-radius: 7px;
+        background: transparent;
+        color: #64748b;
+        font: inherit;
+        font-size: 0.65rem;
+        font-weight: 700;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      .project-view-toggle-button.active {
+        background: #fff;
+        color: #2563eb;
+        box-shadow: 0 1px 3px rgba(15, 23, 42, 0.12);
+      }
+
+      .project-tracking-fields {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        padding: 8px 18px 18px;
+      }
+
+      .project-tracking-save {
+        justify-self: end;
+        align-self: end;
+        min-height: 36px;
+        padding: 7px 10px;
+        font-size: 0.72rem;
+        white-space: nowrap;
+      }
+
+      .project-progress-program-list {
+        display: flex;
+        max-height: 220px;
+        flex-direction: column;
+        overflow-y: auto;
+      }
+
+      .project-manual-row {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) 82px;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 0;
+        border-bottom: 1px solid #eef2f7;
+      }
+
+      .project-manual-row span {
+        color: #64748b;
+        font-size: 0.76rem;
+        overflow-wrap: anywhere;
+      }
+
+      .project-manual-row input {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 36px;
+        padding: 7px 9px;
+        border: 1px solid #d8e1ee;
+        border-radius: 9px;
+        color: #1f2937;
+        font: inherit;
+        font-size: 0.8rem;
+      }
+
+      .project-manual-row input:focus {
+        outline: 2px solid rgba(37, 99, 235, 0.18);
+        border-color: #3b82f6;
+      }
+
+      .project-manual-row input:disabled {
+        border-color: #bbf7d0;
+        background: #ecfdf3;
+        color: #166534;
+        cursor: not-allowed;
+      }
+
+      .project-progress-empty {
+        padding: 18px;
+        color: #64748b;
+        font-size: 0.78rem;
+        text-align: center;
+      }
+
+      @media (max-width: 900px) {
+        .project-progress-card .panel-header {
+          align-items: flex-start;
+          flex-wrap: wrap;
+        }
+
+        .project-progress-card .panel-header > div:first-child {
+          flex: 1 1 100%;
+          min-width: 0;
+        }
+
+        .project-view-toggle {
+          margin-left: auto;
+        }
+      }
+
+      .monitoring-panel {
+        min-width: 0;
+        overflow: hidden;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+
+      .monitoring-panel:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 11px 24px rgba(30, 64, 110, 0.09);
+      }
+
+      .monitoring-panel .panel-header {
+        min-height: 62px;
+      }
+
+      .monitoring-panel .panel-header small {
+        max-width: 460px;
+        line-height: 1.45;
+      }
+
+      .monitoring-panel .panel-header .pill {
+        flex-shrink: 0;
+      }
+
+      .request-monitoring-panel {
+        min-height: 0;
+        margin: 0 24px 22px;
+      }
+
+      .request-table {
+        table-layout: fixed;
+      }
+
+      .request-table th:nth-child(1) {
+        width: 12%;
+      }
+
+      .request-table th:nth-child(2) {
+        width: 17%;
+      }
+
+      .request-table th:nth-child(3) {
+        width: 14%;
+      }
+
+      .request-table th:nth-child(4) {
+        width: 16%;
+      }
+
+      .request-table th:nth-child(5) {
+        width: 260px;
+        max-width: 260px;
+      }
+
+      .request-table th:nth-child(6) {
+        width: 10%;
+      }
+
+      .request-table th:nth-child(7) {
+        width: 9%;
+      }
+
+      .request-table td {
+        overflow-wrap: anywhere;
+      }
+
+      .request-table th:nth-child(5),
+      .request-table td:nth-child(5) {
+        width: 260px;
+        max-width: 260px;
+        white-space: normal;
+        overflow-wrap: anywhere;
+        word-wrap: break-word;
+      }
+
+      .request-table td:last-child a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 30px;
+        padding: 5px 10px;
+        border: 1px solid #bfdbfe;
+        border-radius: 999px;
+        background: #eff6ff;
+        color: #1d4ed8;
+        font-size: 0.76rem;
+        font-weight: 700;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: background-color 0.18s ease, border-color 0.18s ease;
+      }
+
+      .request-table td:last-child a:hover {
+        border-color: #93c5fd;
+        background: #dbeafe;
+      }
+
+      .empty-state {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 220px;
+        padding: 20px;
+        color: #6b7280;
+        text-align: center;
+      }
+
+      .distribution-panel {
+        margin: 0 22px 22px;
+      }
+
+      .pic-distribution-table {
+        min-width: 720px;
+      }
+
+      .pic-projects {
+        display: block;
+      }
+
+      .project-label {
+        color: #334155;
+        font-size: 13px;
+        font-weight: 500;
+      }
+
+      .project-separator {
+        margin: 0 6px;
+        color: #94a3b8;
+        font-size: 13px;
+      }
+
+      .pic-status-summary {
+        color: #475569;
+        font-size: 0.8rem;
+        line-height: 1.5;
+      }
+
+      .distribution-panel .empty-state[hidden],
+      #pic-distribution-table[hidden] {
+        display: none;
+      }
+
+      .modal-overlay {
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: rgba(15, 23, 42, 0.48);
+      }
+
+      .modal-overlay[hidden] {
+        display: none;
+      }
+
+      .program-modal {
+        width: min(100%, 560px);
+        max-height: calc(100vh - 40px);
+        overflow-y: auto;
+        background: #fff;
+        border-radius: 16px;
+        box-shadow: 0 24px 60px rgba(15, 23, 42, 0.22);
+      }
+
+      .modal-header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        padding: 18px 24px 14px;
+        border-bottom: 1px solid #e5eaf3;
+      }
+
+      .modal-header h2 {
+        margin: 0;
+        color: #172033;
+        font-size: 1.2rem;
+      }
+
+      .modal-header p {
+        margin: 3px 0 0;
+        color: #2563eb;
+        font-size: 0.78rem;
+        font-weight: 600;
+      }
+
+      .modal-close {
+        border: 0;
+        background: transparent;
+        color: #94a3b8;
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+
+      .modal-close:hover {
+        transform: translateY(-2px);
+        color: #475569;
+      }
+
+      .program-form {
+        display: grid;
+        grid-template-columns: repeat(6, minmax(0, 1fr));
+        gap: 14px 16px;
+        padding: 20px 24px 24px;
+      }
+
+      .form-field {
+        grid-column: span 3;
+        min-width: 0;
+      }
+
+      .form-field.full {
+        grid-column: 1 / -1;
+      }
+
+      .form-field label {
+        display: block;
+        margin-bottom: 6px;
+        color: #475569;
+        font-size: 0.76rem;
+        font-weight: 700;
+      }
+
+      .form-field input,
+      .form-field select,
+      .form-field textarea {
+        box-sizing: border-box;
+        width: 100%;
+        min-height: 42px;
+        padding: 9px 12px;
+        border: 1px solid #d8e1ee;
+        border-radius: 11px;
+        background: #fff;
+        color: #1f2937;
+        font: inherit;
+        font-size: 0.88rem;
+      }
+
+      .form-field textarea {
+        min-height: 72px;
+        resize: vertical;
+      }
+
+      .form-field input:focus,
+      .form-field select:focus,
+      .form-field textarea:focus {
+        outline: 2px solid rgba(37, 99, 235, 0.18);
+        border-color: #3b82f6;
+      }
+
+      .modal-actions {
+        display: flex;
+        grid-column: 1 / -1;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 4px;
+      }
+
+      .programs-section {
+        margin: 0 22px 22px;
+        background: #fff;
+        border: 1px solid #dfe7f3;
+        border-radius: 16px;
+        overflow: hidden;
+      }
+
+      .programs-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 20px;
+        border-bottom: 1px solid #e5eaf3;
+      }
+
+      .programs-heading h3 {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin: 0;
+        color: #1f2937;
+      }
+
+      .programs-heading p {
+        margin: 4px 0 0;
+        color: #718096;
+        font-size: 0.82rem;
+      }
+
+      .program-count-badge {
+        padding: 5px 10px;
+        border-radius: 999px;
+        background: #eaf1ff;
+        color: #2563eb;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .program-controls {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .program-sort {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #718096;
+        font-size: 0.82rem;
+        white-space: nowrap;
+      }
+
+      .program-sort select {
+        min-height: 38px;
+        padding: 0 12px;
+        border: 1px solid #d8e1ee;
+        border-radius: 9px;
+        background: #fff;
+        color: #1f2937;
+      }
+
+      .request-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .request-controls label {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        color: #718096;
+        font-size: 0.72rem;
+        font-weight: 700;
+      }
+
+      .request-controls select {
+        min-height: 38px;
+        padding: 0 12px;
+        border: 1px solid #d8e1ee;
+        border-radius: 9px;
+        background: #fff;
+        color: #1f2937;
+      }
+
+      .program-table-wrap {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        overscroll-behavior-x: contain;
+      }
+
+      .program-table {
+        width: 100%;
+        border-collapse: collapse;
+        text-align: left;
+      }
+
+      .program-table th {
+        padding: 13px 18px;
+        background: #f1f5f9;
+        color: #475569;
+        font-size: 0.68rem;
+        letter-spacing: 0.035em;
+        text-transform: uppercase;
+        white-space: nowrap;
+      }
+
+      .program-table td {
+        padding: 14px 18px;
+        border-top: 1px solid #e2e8f0;
+        color: #334155;
+        font-size: 0.85rem;
+      }
+
+      .program-table tbody tr {
+        transition: background-color 0.18s ease;
+      }
+
+      .program-table tbody tr:hover {
+        background: #f8fafc;
+      }
+
+      .program-table td:first-child {
+        color: #172033;
+        font-weight: 700;
+      }
+
+      .program-progress {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 4px 12px;
+        border: none;
+        border-radius: 9999px;
+        background: #f8fafc;
+        color: #334155;
+        font-size: 0.78rem;
+        font-weight: 600;
+        white-space: nowrap;
+      }
+
+      .program-progress::before {
+        font-size: 0.9em;
+        line-height: 1;
+      }
+
+      .program-progress-planning {
+        background: #fef3c7;
+        color: #92400e;
+      }
+
+      .program-progress-planning::before {
+        content: "○";
+      }
+
+      .program-progress-active {
+        background: #eff6ff;
+        color: #1d4ed8;
+      }
+
+      .program-progress-active::before {
+        content: "◑";
+      }
+
+      .program-progress-complete {
+        background: #ecfdf5;
+        color: #047857;
+      }
+
+      .program-progress-complete::before {
+        content: "✓";
+      }
+
+      .report-stage {
+        display: block;
+        margin-bottom: 5px;
+        color: #2563eb;
+        font-size: 0.78rem;
+        font-weight: 700;
+      }
+
+      .program-delete {
+        border: 0;
+        background: transparent;
+        color: #dc2626;
+        cursor: pointer;
+        font: inherit;
+        font-size: 0.8rem;
+        transition: transform 0.3s ease, color 0.3s ease;
+      }
+
+      .program-delete:hover {
+        transform: translateY(-2px);
+        color: #b91c1c;
+      }
+
+      .program-empty-state {
+        padding: 42px 20px;
+        color: #64748b;
+        text-align: center;
+      }
+
+      .program-empty-state[hidden] {
+        display: none;
+      }
+
+      .program-empty-icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 48px;
+        height: 48px;
+        margin: 0 auto 12px;
+        border-radius: 50%;
+        background: #eff6ff;
+        color: #2563eb;
+        font-size: 20px;
+      }
+
+      .program-empty-state h4 {
+        margin: 0 0 5px;
+        color: #1f2937;
+      }
+
+      .program-empty-state p {
+        max-width: 440px;
+        margin: 0 auto 16px;
+        font-size: 0.82rem;
+      }
+
+      @media (max-width: 940px) {
+        .dashboard-topbar {
+          flex-direction: row;
+          flex-wrap: wrap;
+          align-items: center;
+        }
+
+        .dashboard-actions {
+          flex: 1 1 480px;
+          flex-direction: row;
+          justify-content: flex-start;
+        }
+
+        .dashboard-toolbar {
+          flex-direction: row;
+          align-items: center;
+        }
+
+        .dashboard-filters {
+          grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto;
+        }
+
+        .dashboard-filters input {
+          grid-column: 1 / -1;
+        }
+
+        .programs-heading {
+          align-items: flex-start;
+          flex-direction: column;
+        }
+
+        .program-controls {
+          width: 100%;
+        }
+
+        .program-sort {
+          justify-content: space-between;
+        }
+
+        .stats-grid,
+        .project-progress-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .project-progress-grid {
+          gap: 12px;
+        }
+      }
+
+      @media (max-width: 800px) {
+        .request-monitoring-panel .panel-header {
+          min-height: 0;
+          align-items: stretch;
+          flex-direction: column;
+          gap: 12px;
+          padding: 18px 20px 14px;
+        }
+
+        .request-monitoring-panel .panel-header > div:first-child {
+          width: 100%;
+          min-width: 0;
+        }
+
+        .request-monitoring-panel .panel-header h3 {
+          font-size: 1.08rem;
+          line-height: 1.35;
+        }
+
+        .request-monitoring-panel .panel-header small {
+          max-width: none;
+        }
+
+        .request-monitoring-panel .request-controls {
+          display: grid;
+          grid-template-columns: minmax(0, 1fr) auto;
+          align-items: end;
+          gap: 10px;
+          width: 100%;
+          min-width: 0;
+        }
+
+        .request-monitoring-panel .request-controls label {
+          min-width: 0;
+        }
+
+        .request-monitoring-panel .request-controls select {
+          min-width: 0;
+          max-width: 100%;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .request-monitoring-panel .panel-header {
+          padding: 16px;
+        }
+
+        .request-monitoring-panel .request-controls {
+          gap: 8px;
+        }
+
+        .request-monitoring-panel .request-controls label {
+          display: grid;
+          grid-template-columns: 1fr;
+          align-items: start;
+          gap: 6px;
+        }
+
+        .request-monitoring-panel .request-controls select {
+          width: 100%;
+          min-height: 40px;
+          padding: 0 10px;
+        }
+
+        .request-monitoring-panel .request-controls .pill {
+          white-space: nowrap;
+        }
+
+        .landing-topbar {
+          min-height: 56px;
+          padding: 8px 18px;
+        }
+
+        .landing-logo {
+          width: 116px;
+        }
+
+        .landing-tagline {
+          max-width: 58%;
+          font-size: 0.58rem;
+        }
+
+        .main-menu-wrap {
+          margin-top: 24px;
+          padding: 0 16px;
+        }
+
+        .welcome-intro {
+          margin-bottom: 20px;
+        }
+
+        .dashboard-shell {
+          margin: 12px 10px 24px;
+          border-radius: 17px;
+        }
+
+        .dashboard-topbar {
+          padding: 14px 16px;
+        }
+
+        .dashboard-actions {
+          flex: 1 1 100%;
+          display: flex;
+          flex-wrap: wrap;
+          justify-content: flex-start;
+          width: 100%;
+        }
+
+        .dashboard-actions .database-status {
+          flex: 1 1 100%;
+          text-align: center;
+        }
+
+        .dashboard-actions .btn {
+          flex: 1 1 135px;
+          width: auto;
+        }
+
+        .dashboard-toolbar {
+          padding: 14px 16px 10px;
+        }
+
+        .dashboard-toolbar .btn {
+          flex: 1 1 0;
+          padding: 10px 8px;
+          font-size: 0.78rem;
+        }
+
+        #home-button {
+          flex-grow: 1;
+        }
+
+        #add-program-button {
+          flex-grow: 1.6;
+        }
+
+        .dashboard-header-row {
+          padding: 0 16px 16px;
+        }
+
+        .company-block {
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .brand-logo {
+          width: 124px;
+        }
+
+        .brand-text {
+          padding-left: 9px;
+        }
+
+        .company-block h2 {
+          font-size: 1.45rem;
+        }
+
+        .dashboard-filters {
+          grid-template-columns: 1fr;
+          margin: 0 16px 2px;
+          padding: 12px;
+          gap: 8px;
+        }
+
+        .dashboard-filters input {
+          grid-column: auto;
+        }
+
+        .stats-grid {
+          padding: 16px;
+          gap: 10px;
+        }
+
+        .project-progress-grid {
+          padding-left: 16px;
+          padding-right: 16px;
+        }
+
+        .request-monitoring-panel {
+          margin: 0 16px 16px;
+        }
+
+        .request-table {
+          min-width: 1000px;
+          table-layout: auto;
+        }
+
+        .distribution-panel {
+          margin-left: 16px;
+          margin-right: 16px;
+        }
+
+        .workspace-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .program-form {
+          grid-template-columns: 1fr;
+          padding: 18px;
+        }
+
+        .programs-section {
+          margin-left: 16px;
+          margin-right: 16px;
+        }
+
+        .form-field,
+        .form-field.full {
+          grid-column: 1;
+        }
+
+        .modal-header {
+          padding: 16px 18px 12px;
+        }
+
+        .welcome-intro h2 {
+          font-size: 1.5rem;
+        }
+
+        .stats-grid,
+        .project-progress-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+
+  </head>
+
+  <body class="index">
+    <main>
+      <div id="home-view" class="home-view">
+        <header class="landing-topbar">
+          <img class="landing-logo" src="images/d-impact-logo.png" alt="D-IMPACT" />
+          <p class="landing-tagline">DAHANA - INNOVATION, MANUFACTURING, PRODUCT ADVANCEMENT &amp; TECHNOLOGY</p>
+        </header>
+
+        <div class="main-menu-wrap">
+          <div class="welcome-intro">
+            <h2>Selamat Datang di Portal D-IMPACT 👋</h2>
+            <p>Pilih bidang kerja di bawah ini untuk masuk ke ruang kerja masing-masing bidang secara mandiri.</p>
+          </div>
+
+          
+
+          <div class="workspace-list-header">
+            <span>Pilih Bidang Kerja</span>
+            <span>3 Workspace Mandiri</span>
+          </div>
+
+          <nav class="workspace-grid" aria-label="Pilih bidang kerja">
+            <a class="workspace-card" href="#dashboard"
+               data-title="Riset &amp; Inovasi Teknologi"
+               data-description="Eksplorasi teknologi baru, material maju, dan riset terapan strategis."
+               data-icon="fa-flask">
+              <div class="workspace-card-top">
+                <span class="icon"><i class="fa fa-flask"></i></span>
+                <span class="workspace-count">0 Kegiatan</span>
+              </div>
+              <div class="workspace-number">01 · BIDANG MANDIRI</div>
+              <h3>Riset &amp; Inovasi Teknologi</h3>
+              <p>Eksplorasi teknologi baru, material maju, dan riset terapan strategis.</p>
+            </a>
+
+            <a class="workspace-card green" href="#dashboard"
+               data-title="Pengembangan Produk &amp; Teknologi Proses"
+               data-description="Rekayasa formulasi produk, optimasi proses produksi, dan scale-up manufaktur."
+               data-icon="fa-cog">
+              <div class="workspace-card-top">
+                <span class="icon"><i class="fa fa-cog"></i></span>
+                <span class="workspace-count">0 Kegiatan</span>
+              </div>
+              <div class="workspace-number">02 · BIDANG MANDIRI</div>
+              <h3>Pengembangan Produk &amp; Teknologi Proses</h3>
+              <p>Rekayasa formulasi produk, optimasi proses produksi, dan scale-up manufaktur.</p>
+            </a>
+
+            <a class="workspace-card purple" href="#dashboard"
+               data-title="Penjamin Mutu &amp; Layanan Teknis"
+               data-description="Standardisasi kualitas, pengujian laboratorium, dan dukungan teknis operasional."
+               data-icon="fa-shield">
+              <div class="workspace-card-top">
+                <span class="icon"><i class="fa fa-shield"></i></span>
+                <span class="workspace-count">0 Kegiatan</span>
+              </div>
+              <div class="workspace-number">03 · BIDANG MANDIRI</div>
+              <h3>Penjamin Mutu &amp; Layanan Teknis</h3>
+              <p>Standardisasi kualitas, pengujian laboratorium, dan dukungan teknis operasional.</p>
+            </a>
+          </nav>
+
+          <div class="landing-footer">Portal D-IMPACT · Ruang kerja inovasi dan teknologi</div>
+        </div>
+      </div>
+
+    <div id="dashboard" class="dashboard-shell" hidden>
+      <div class="dashboard-topbar">
+        <div class="dashboard-brand">
+          <img class="brand-logo" src="images/d-impact-logo.png" alt="D-IMPACT" />
+          <div class="brand-text">
+            <small>Program Kerja</small>
+          </div>
+        </div>
+        <div class="dashboard-actions">
+          <span id="database-status" class="database-status" role="status" aria-live="polite">Memuat Google Sheets...</span>
+          <button id="load-backup-button" class="btn btn-light" type="button"><i class="fa fa-upload" aria-hidden="true"></i> Muat Backup</button>
+          <button id="download-backup-button" class="btn btn-light" type="button"><i class="fa fa-download" aria-hidden="true"></i> Backup JSON</button>
+          <button id="export-csv-button" class="btn btn-light" type="button"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ekspor CSV</button>
+          <input id="backup-file-input" type="file" accept=".json,application/json" hidden />
+        </div>
+      </div>
+
+      <div class="dashboard-toolbar">
+        <button id="home-button" class="btn breadcrumb" type="button"><i class="fa fa-arrow-left" aria-hidden="true"></i> Halaman Awal</button>
+        <button id="add-program-button" class="btn btn-primary" type="button"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Laporan Baru</button>
+      </div>
+
+      <div class="dashboard-header-row">
+        <div class="company-block">
+          <img class="company-logo" src="images/d-impact-mark.png" alt="" />
+          <div>
+            <div class="company-heading">
+              <h2>D-IMPACT</h2>
+              <span id="dashboard-title" class="company-area">Pilih Bidang Kerja</span>
+            </div>
+            <p id="dashboard-description">Pilih bidang kerja untuk membuka ruang kerja.</p>
+          </div>
+        </div>
+      </div>
+
+      <div id="database-error" class="database-error" role="alert" hidden></div>
+
+      <section class="panel monitoring-panel request-monitoring-panel" aria-label="Daftar Request dan Laporan">
+        <div class="panel-header">
+          <div>
+            <h3>Daftar Request &amp; Laporan</h3>
+            <small>Permintaan masuk dari Google Form untuk bidang ini</small>
+          </div>
+          <div class="request-controls">
+            <label for="request-month-filter">Bulan request:
+              <select id="request-month-filter">
+                <option value="all" selected>Semua Bulan</option>
+              </select>
+            </label>
+            <span id="request-count" class="pill">0 Request</span>
+          </div>
+        </div>
+        <div class="program-table-wrap">
+          <table class="program-table request-table">
+            <thead>
+              <tr>
+                <th>Tanggal Masuk</th>
+                <th>User / Pemilik Proyek</th>
+                <th>Nama Pemohon</th>
+                <th>Judul Request</th>
+                <th>Detail Kebutuhan</th>
+                <th>Target Selesai</th>
+                <th>Lampiran</th>
+              </tr>
+            </thead>
+            <tbody id="tempat-data">
+              <tr><td colspan="7" class="filter-empty-state">Pilih bidang untuk melihat request.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <span class="stat-icon" aria-hidden="true"><i class="fa fa-th-large"></i></span>
+          <div class="stat-label">Total Program Bidang</div>
+          <div class="stat-value" id="total-program-count">0</div>
+          <div class="stat-meta">Workspace Mandiri</div>
+          <div class="stat-foot" id="average-progress">Rata-rata capaian: 0%</div>
+        </div>
+        <div class="stat-card purple">
+          <span class="stat-icon" aria-hidden="true"><i class="fa fa-lightbulb-o"></i></span>
+          <div class="stat-label">Perencanaan &amp; Kajian</div>
+          <div class="stat-value" id="planning-count">0</div>
+          <div class="stat-meta">Tahap Inisiasi &amp; Desain</div>
+          <div class="stat-foot" id="planning-share">0% dari total</div>
+        </div>
+        <div class="stat-card green">
+          <span class="stat-icon" aria-hidden="true"><i class="fa fa-refresh"></i></span>
+          <div class="stat-label">Sedang Berjalan</div>
+          <div class="stat-value" id="ongoing-count">0</div>
+          <div class="stat-meta">Tahap Pelaksanaan</div>
+          <div class="stat-foot" id="ongoing-share">0% dari total</div>
+        </div>
+        <div class="stat-card orange">
+          <span class="stat-icon" aria-hidden="true"><i class="fa fa-check"></i></span>
+          <div class="stat-label">Program Selesai</div>
+          <div class="stat-value" id="completed-count">0</div>
+          <div class="stat-meta">Target Tercapai</div>
+          <div class="stat-foot" id="completed-share">0% dari total</div>
+        </div>
+      </div>
+
+      <div id="project-progress-charts" class="project-progress-grid"></div>
+
+      <div class="panel distribution-panel">
+        <div class="panel-header">
+          <div>
+            <h3>Distribusi PIC Bidang</h3>
+            <small>Daftar penanggung jawab bidang beserta kategori proyek dan total laporan yang ditangani</small>
+          </div>
+          <span id="pic-count" class="pill">0 PIC</span>
+        </div>
+        <div class="program-table-wrap">
+          <table id="pic-distribution-table" class="program-table pic-distribution-table" aria-label="Distribusi PIC dan proyek">
+            <thead>
+              <tr>
+                <th>PIC / Penanggung Jawab</th>
+                <th>Proyek</th>
+                <th>Total Laporan</th>
+                <th>Ringkasan Status</th>
+              </tr>
+            </thead>
+            <tbody id="pic-distribution-list"></tbody>
+          </table>
+        </div>
+        <div id="pic-empty-state" class="empty-state">Belum ada PIC terdaftar di bidang ini.</div>
+      </div>
+
+      <section id="programs-section" class="programs-section">
+        <div class="dashboard-filters">
+          <input id="program-search" type="text"
+                 placeholder="Cari program kerja atau penanggung jawab di bidang ini..."
+                 aria-label="Cari program kerja atau penanggung jawab" />
+          <select id="stage-filter" aria-label="Filter tahapan">
+            <option value="">Semua Tahapan</option>
+            <option value="Perencanaan &amp; Kajian">Perencanaan &amp; Kajian</option>
+            <option value="Sedang Berjalan">Sedang Berjalan</option>
+            <option value="Program Selesai">Selesai</option>
+          </select>
+          <select id="pic-filter" aria-label="Filter PIC">
+            <option value="">Semua PIC</option>
+          </select>
+          <button id="reset-program-filters" class="filter-btn" type="button"
+                  aria-label="Reset filter" title="Reset filter">
+            <i class="fa fa-refresh"></i>
+          </button>
+        </div>
+
+        <div class="programs-heading">
+          <div>
+            <h3>History Report <span id="program-count-badge" class="program-count-badge">0 Program</span></h3>
+            <p>Status pekerjaan terbaru otomatis diperbarui setiap ada update progres</p>
+          </div>
+          <div class="program-controls">
+            <label class="program-sort" for="program-month-filter">
+              Bulan laporan:
+              <select id="program-month-filter">
+                <option value="all" selected>Semua Bulan</option>
+              </select>
+            </label>
+            <label class="program-sort" for="program-sort">
+              Urutkan:
+              <select id="program-sort">
+              <option value="submitted" selected>Terakhir Diinput</option>
+              <option value="date">Tanggal Laporan Terbaru</option>
+                <option value="oldest">Tanggal Laporan Terlama</option>
+                <option value="name">Nama Program A-Z</option>
+              </select>
+            </label>
+          </div>
+        </div>
+        <div class="program-table-wrap">
+          <table class="program-table">
+            <thead>
+              <tr>
+                <th>Nama Program Kerja</th>
+                <th>Jenis Proyek</th>
+                <th>PIC</th>
+                <th>Tanggal Laporan</th>
+                <th>Tahapan</th>
+                <th>Isi Laporan</th>
+              </tr>
+            </thead>
+            <tbody id="program-list"></tbody>
+          </table>
+          <div id="program-empty-state" class="program-empty-state">
+            <span class="program-empty-icon"><i class="fa fa-folder-open"></i></span>
+            <h4>Belum ada program kerja pada bidang ini</h4>
+            <p>Setiap bidang berdiri sendiri. Silakan tambahkan program kerja baru khusus untuk bidang ini.</p>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="program-modal" class="modal-overlay" hidden>
+      <section class="program-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <div class="modal-header">
+          <div>
+            <h2 id="modal-title">Tambah Laporan Baru</h2>
+            <p id="modal-workspace-name"></p>
+          </div>
+          <button id="close-program-modal" class="modal-close" type="button" aria-label="Tutup">×</button>
+        </div>
+
+        <form id="program-form" class="program-form">
+          <div class="form-field full">
+            <label for="program-name">Nama Program Kerja *</label>
+            <input id="program-name" name="name" type="text" required maxlength="255"
+                   placeholder="Masukkan nama program kerja..." />
+          </div>
+
+          <div class="form-field full">
+            <label for="project-type">Jenis Proyek *</label>
+            <select id="project-type" name="project" required>
+              <option value="" disabled selected hidden>Pilih jenis proyek</option>
+              <option value="Investasi">Investasi</option>
+              <option value="Counterpart">Counterpart</option>
+              <option value="Engineering Services">Engineering Services</option>
+              <option value="RKAP">RKAP</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="program-stage">Tahapan Pelaksanaan *</label>
+            <select id="program-stage" name="stage" required>
+              <option value="" disabled selected hidden>Pilih tahapan</option>
+              <option value="Perencanaan &amp; Kajian">Perencanaan &amp; Kajian</option>
+              <option value="Sedang Berjalan">Sedang Berjalan</option>
+              <option value="Program Selesai">Program Selesai</option>
+            </select>
+          </div>
+
+          <div class="form-field">
+            <label for="inputTanggal">Tanggal Laporan *</label>
+            <input id="inputTanggal" name="tanggalLaporan" type="date" required />
+          </div>
+
+          <div class="form-field">
+            <label for="program-pic">PIC / Penanggung Jawab *</label>
+            <input id="program-pic" name="pic" type="text" required maxlength="255"
+                   placeholder="Nama PIC..." list="program-pic-suggestions" />
+            <datalist id="program-pic-suggestions"></datalist>
+          </div>
+
+          <div class="form-field full">
+            <label for="inputProgres">Progres Saat Ini *</label>
+            <textarea id="inputProgres" name="inputProgres" required maxlength="10000"
+                      placeholder="Tuliskan pekerjaan yang telah dilakukan, hasil, atau kendala..."></textarea>
+          </div>
+
+          <div class="form-field full">
+            <label for="inputTarget">Target Selanjutnya *</label>
+            <textarea id="inputTarget" name="inputTarget" required maxlength="10000"
+                      placeholder="Tuliskan target, fokus, atau pekerjaan yang akan dilakukan berikutnya..."></textarea>
+          </div>
+
+          <p id="program-form-error" class="form-error" hidden></p>
+
+          <div class="modal-actions">
+            <button id="cancel-program" class="btn btn-light" type="button">Batal</button>
+            <button class="btn btn-primary" type="submit">Simpan Laporan</button>
+          </div>
+        </form>
+      </section>
+    </div>
+    </main>
+
+    <!-- JS Libraries -->
+    <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="/dashboard/javascripts/all.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+    <script>
+      (function () {
+        var homeView = document.getElementById("home-view");
+        var dashboard = document.getElementById("dashboard");
+        var homeButton = document.getElementById("home-button");
+        var dashboardTitle = document.getElementById("dashboard-title");
+        var dashboardDescription = document.getElementById("dashboard-description");
+        var workspaceCards = document.querySelectorAll(".workspace-card");
+        var projectProgressCharts = document.getElementById("project-progress-charts");
+        var projectTypes = [
+          "RKAP",
+          "Investasi",
+          "Counterpart",
+          "Engineering Services"
+        ];
+        var addProgramButton = document.getElementById("add-program-button");
+        var programModal = document.getElementById("program-modal");
+        var modalWorkspaceName = document.getElementById("modal-workspace-name");
+        var closeProgramModal = document.getElementById("close-program-modal");
+        var cancelProgramButton = document.getElementById("cancel-program");
+        var programForm = document.getElementById("program-form");
+        var programList = document.getElementById("program-list");
+        var programEmptyState = document.getElementById("program-empty-state");
+        var programCountBadge = document.getElementById("program-count-badge");
+        var programMonthFilter = document.getElementById("program-month-filter");
+        var programSort = document.getElementById("program-sort");
+        var programSearch = document.getElementById("program-search");
+        var stageFilter = document.getElementById("stage-filter");
+        var picFilter = document.getElementById("pic-filter");
+        var resetProgramFilters = document.getElementById("reset-program-filters");
+        var databaseStatus = document.getElementById("database-status");
+        var databaseError = document.getElementById("database-error");
+        var programFormError = document.getElementById("program-form-error");
+        var loadBackupButton = document.getElementById("load-backup-button");
+        var downloadBackupButton = document.getElementById("download-backup-button");
+        var exportCsvButton = document.getElementById("export-csv-button");
+        var backupFileInput = document.getElementById("backup-file-input");
+        var activeWorkspaceStorageKey = "d-impact-active-workspace";
+        var activeWorkspace = "";
+
+        function applyWorkspaceTheme() {
+          dashboard.setAttribute("data-theme", "blue");
+        }
+
+        try {
+          var savedWorkspace = localStorage.getItem(activeWorkspaceStorageKey);
+          if (Array.from(workspaceCards).some(function (card) {
+            return card.getAttribute("data-title") === savedWorkspace;
+          })) {
+            activeWorkspace = savedWorkspace;
+          }
+        } catch (error) {
+          console.error("Gagal memulihkan bidang kerja terakhir.", error);
+        }
+        var programsByWorkspace = Object.create(null);
+        var monitoringByWorkspace = Object.create(null);
+        var projectCharts = Object.create(null);
+        var projectViewModes = Object.create(null);
+        var apiUrl = "/dashboard/api/programs.php";
+        var googleAppsScriptUrl = "https://script.google.com/macros/s/AKfycbzuFYZImhpfu63_3_gx5K5h8G_CkHow4zXrG-7ibyKvyy8mRlX_1m0o3M3JBW8a_JX4/exec";
+        var backupApiUrl = "/dashboard/api/backup.php";
+        var monitoringApiUrl = "/dashboard/api/monitoring.php";
+        var localReportStorageKey = "d-impact-history-reports";
+
+        function saveLocalHistoryReport(report) {
+          var reports = [];
+          try {
+            reports = JSON.parse(localStorage.getItem(localReportStorageKey) || "[]");
+          } catch (error) {
+            reports = [];
+          }
+          if (!Array.isArray(reports)) {
+            reports = [];
+          }
+          reports.push({
+            workspace: report.workspace,
+            name: report.name,
+            project: report.project,
+            stage: report.stage,
+            pic: report.pic,
+            startDate: report.startDate,
+            tanggalLaporan: report.tanggalLaporan,
+            submittedAt: report.submittedAt,
+            description: report.description,
+            status: report.status
+          });
+          localStorage.setItem(localReportStorageKey, JSON.stringify(reports));
+        }
+
+        function setDatabaseStatus(message, state) {
+          databaseStatus.textContent = message;
+          databaseStatus.className = "database-status" + (state ? " " + state : "");
+        }
+
+        function showDatabaseError(message) {
+          databaseError.textContent = message;
+          databaseError.hidden = false;
+          setDatabaseStatus("Database bermasalah", "error");
+        }
+
+        function clearDatabaseError() {
+          databaseError.textContent = "";
+          databaseError.hidden = true;
+        }
+
+        async function apiRequest(url, options) {
+          var response;
+          try {
+            response = await fetch(url, options);
+          } catch (error) {
+            throw new Error("Tidak dapat menghubungi API. Pastikan Apache dan MariaDB XAMPP aktif.");
+          }
+
+          var payload;
+          try {
+            payload = await response.json();
+          } catch (error) {
+            throw new Error("Respons API tidak valid. Periksa konfigurasi PHP dan endpoint database.");
+          }
+
+          if (!response.ok || !payload.success) {
+            throw new Error(payload.message || "Permintaan database gagal.");
+          }
+          return payload.data;
+        }
+
+        async function loadWorkspacePrograms(workspace) {
+          var url = apiUrl + "?workspace=" + encodeURIComponent(workspace);
+          var programs = await apiRequest(url);
+          if (!Array.isArray(programs)) {
+            throw new Error("Data program dari database memiliki format yang tidak valid.");
+          }
+          programsByWorkspace[workspace] = programs;
+          updateWorkspaceCounts();
+          return programs;
+        }
+
+        async function loadWorkspaceMonitoring(workspace) {
+          var url = monitoringApiUrl + "?workspace=" + encodeURIComponent(workspace);
+          var monitoring = await apiRequest(url);
+          if (!monitoring || !Array.isArray(monitoring.projects) ||
+              !Array.isArray(monitoring.activities) || !Array.isArray(monitoring.tasks) ||
+              !Array.isArray(monitoring.requests)) {
+            throw new Error("Data monitoring dari database memiliki format yang tidak valid.");
+          }
+          monitoringByWorkspace[workspace] = monitoring;
+          return monitoring;
+        }
+
+        async function loadAllWorkspacePrograms() {
+          var backupWorkspaces = Object.create(null);
+          await Promise.all(Array.from(workspaceCards).map(async function (card) {
+            var workspace = card.getAttribute("data-title");
+            backupWorkspaces[workspace] = await loadWorkspacePrograms(workspace);
+          }));
+          if (activeWorkspace) {
+            renderPrograms();
+          }
+          return backupWorkspaces;
+        }
+
+        async function loadAllWorkspaceMonitoring() {
+          var backupMonitoring = Object.create(null);
+          await Promise.all(Array.from(workspaceCards).map(async function (card) {
+            var workspace = card.getAttribute("data-title");
+            backupMonitoring[workspace] = await loadWorkspaceMonitoring(workspace);
+          }));
+          if (activeWorkspace) {
+            renderPrograms();
+          }
+          return backupMonitoring;
+        }
+
+        function downloadFile(content, mimeType, filename) {
+          var blob = new Blob([content], { type: mimeType });
+          var url = URL.createObjectURL(blob);
+          var link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          link.style.display = "none";
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          window.setTimeout(function () {
+            URL.revokeObjectURL(url);
+          }, 1000);
+        }
+
+        function csvCell(value) {
+          var text = value === null || typeof value === "undefined" ? "" : String(value);
+          if (/^[\t\r ]*[=+\-@]/.test(text)) {
+            text = "'" + text;
+          }
+          return '"' + text.replace(/"/g, '""') + '"';
+        }
+
+        async function downloadJsonBackup() {
+          setDatabaseStatus("Menyiapkan backup JSON...");
+          try {
+            var backup = {
+              app: "D-IMPACT",
+              version: 1,
+              exportedAt: new Date().toISOString(),
+              workspaces: await loadAllWorkspacePrograms(),
+              monitoring: await loadAllWorkspaceMonitoring()
+            };
+            downloadFile(
+              JSON.stringify(backup, null, 2),
+              "application/json;charset=utf-8",
+              "d-impact-backup-" + new Date().toISOString().slice(0, 10) + ".json"
+            );
+            clearDatabaseError();
+            setDatabaseStatus("Backup JSON berhasil diunduh", "saved");
+          } catch (error) {
+            console.error("Gagal membuat backup JSON.", error);
+            showDatabaseError("Gagal membuat backup JSON: " + error.message);
+          }
+        }
+
+        async function exportProgramsCsv() {
+          setDatabaseStatus("Menyiapkan ekspor CSV...");
+          try {
+            var workspaces = await loadAllWorkspacePrograms();
+            await loadAllWorkspaceMonitoring();
+            var rows = [[
+              "Bidang Kerja",
+              "Nama Program Kerja",
+              "Proyek",
+              "Tahapan",
+              "PIC",
+              "Tanggal Mulai",
+              "Target Selesai",
+              "Pemilik Proyek",
+              "Capaian Proyek (%)",
+              "Status Pekerjaan",
+              "Deskripsi"
+            ]];
+
+            Array.from(workspaceCards).forEach(function (card) {
+              var workspace = card.getAttribute("data-title");
+              var programs = workspaces[workspace];
+              var projectSettings = getProjectSettings(workspace);
+              programs.forEach(function (program) {
+                rows.push([
+                  workspace,
+                  program.name,
+                  program.project,
+                  program.stage,
+                  program.pic,
+                  program.startDate,
+                  program.targetDate,
+                  projectSettings[program.project].owner,
+                  projectSettings[program.project].progress + "%",
+                  program.status,
+                  program.description
+                ]);
+              });
+            });
+
+            var csv = "\uFEFF" + rows.map(function (row) {
+              return row.map(csvCell).join(",");
+            }).join("\r\n");
+            downloadFile(
+              csv,
+              "text/csv;charset=utf-8",
+              "d-impact-program-kerja-" + new Date().toISOString().slice(0, 10) + ".csv"
+            );
+            clearDatabaseError();
+            setDatabaseStatus("Ekspor CSV berhasil diunduh", "saved");
+          } catch (error) {
+            console.error("Gagal mengekspor data program ke CSV.", error);
+            showDatabaseError("Gagal mengekspor CSV: " + error.message);
+          }
+        }
+
+        function readFileAsText(file) {
+          return new Promise(function (resolve, reject) {
+            var reader = new FileReader();
+            reader.onload = function () {
+              resolve(String(reader.result || ""));
+            };
+            reader.onerror = function () {
+              reject(new Error("File backup tidak dapat dibaca."));
+            };
+            reader.readAsText(file);
+          });
+        }
+
+        function validateBackupEnvelope(backup) {
+          if (!backup || typeof backup !== "object" || backup.app !== "D-IMPACT" ||
+              backup.version !== 1 || !backup.workspaces || typeof backup.workspaces !== "object") {
+            throw new Error("Format backup tidak dikenali. Gunakan file Backup JSON D-IMPACT.");
+          }
+          Array.from(workspaceCards).forEach(function (card) {
+            var workspace = card.getAttribute("data-title");
+            if (!Array.isArray(backup.workspaces[workspace])) {
+              throw new Error("Data bidang " + workspace + " tidak ditemukan di dalam backup.");
+            }
+          });
+        }
+
+        async function importJsonBackup(file) {
+          try {
+            var backup = JSON.parse(await readFileAsText(file));
+            validateBackupEnvelope(backup);
+            setDatabaseStatus("Menggabungkan backup ke database...");
+            var result = await apiRequest(backupApiUrl, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(backup)
+            });
+
+            try {
+              await Promise.all([
+                loadAllWorkspacePrograms(),
+                loadAllWorkspaceMonitoring()
+              ]);
+            } catch (refreshError) {
+              console.error("Backup dimuat, tetapi data program gagal diperbarui.", refreshError);
+              showDatabaseError(
+                "Backup berhasil dimuat, tetapi data di layar gagal diperbarui: " +
+                refreshError.message
+              );
+              return;
+            }
+
+            clearDatabaseError();
+            setDatabaseStatus(
+              "Backup dimuat: " + result.imported + " ditambahkan, " +
+              result.skipped + " duplikat dilewati",
+              "saved"
+            );
+          } catch (error) {
+            console.error("Gagal memuat backup JSON.", error);
+            showDatabaseError("Gagal memuat backup JSON: " + error.message);
+          } finally {
+            backupFileInput.value = "";
+          }
+        }
+
+        function getProjectSettings(workspace) {
+          var targetWorkspace = workspace || activeWorkspace;
+          var monitoring = monitoringByWorkspace[targetWorkspace] || {
+            projects: [],
+            activities: [],
+            tasks: [],
+            requests: []
+          };
+          var projectSettings = Object.create(null);
+          projectTypes.forEach(function (projectType) {
+            projectSettings[projectType] = { owner: "", progress: 0 };
+          });
+
+          monitoring.projects.forEach(function (item) {
+            if (projectSettings[item.project]) {
+              projectSettings[item.project] = {
+                owner: item.owner || "",
+                progress: Number(item.progress) || 0
+              };
+            }
+          });
+          return projectSettings;
+        }
+
+        function getMonitoringData(workspace) {
+          var targetWorkspace = workspace || activeWorkspace;
+          if (!monitoringByWorkspace[targetWorkspace]) {
+            monitoringByWorkspace[targetWorkspace] = {
+              projects: [],
+              activities: [],
+              tasks: [],
+              requests: []
+            };
+          }
+          return monitoringByWorkspace[targetWorkspace];
+        }
+
+        async function initializeDatabase() {
+          setDatabaseStatus("Menunggu data Google Sheets...");
+          try {
+            // await Promise.all(Array.from(workspaceCards).map(async function (card) {
+            // var workspace = card.getAttribute("data-title");
+            //  await Promise.all([
+            //    loadWorkspacePrograms(workspace),
+            //    loadWorkspaceMonitoring(workspace)
+            //  ]);
+            // }));
+            clearDatabaseError();
+            setDatabaseStatus("Data Google Sheets siap dimuat", "saved");
+          } catch (error) {
+            console.error("Gagal memuat program kerja dari database.", error);
+            showDatabaseError("Gagal memuat data dari database: " + error.message);
+          }
+        }
+
+        function updateWorkspaceCounts() {
+          workspaceCards.forEach(function (card) {
+            var workspace = card.getAttribute("data-title");
+            var sheetCounter = window.hitungDataSheetsPerBidang;
+            var count = typeof sheetCounter === "function"
+              ? sheetCounter(workspace)
+              : (programsByWorkspace[workspace] || []).length;
+            card.querySelector(".workspace-count").textContent = count + " Kegiatan";
+          });
+        }
+
+        function showDashboard() {
+          homeView.hidden = true;
+          dashboard.hidden = false;
+          window.scrollTo(0, 0);
+        }
+
+        function showHome() {
+          dashboard.hidden = true;
+          homeView.hidden = false;
+          try {
+            localStorage.removeItem(activeWorkspaceStorageKey);
+          } catch (error) {
+            console.error("Gagal menghapus bidang kerja tersimpan.", error);
+          }
+          window.scrollTo(0, 0);
+        }
+
+        function getPrograms() {
+          if (!programsByWorkspace[activeWorkspace]) {
+            programsByWorkspace[activeWorkspace] = [];
+          }
+          return programsByWorkspace[activeWorkspace];
+        }
+
+        function updatePicFilterOptions(programs) {
+          var selectedPic = picFilter.value;
+          var uniquePics = [];
+          programs.forEach(function (program) {
+            if (uniquePics.indexOf(program.pic) === -1) {
+              uniquePics.push(program.pic);
+            }
+          });
+          uniquePics.sort(function (a, b) {
+            return a.localeCompare(b);
+          });
+
+          while (picFilter.firstChild) {
+            picFilter.removeChild(picFilter.firstChild);
+          }
+          var allPicOption = document.createElement("option");
+          allPicOption.value = "";
+          allPicOption.textContent = "Semua PIC";
+          picFilter.appendChild(allPicOption);
+          uniquePics.forEach(function (pic) {
+            var option = document.createElement("option");
+            option.value = pic;
+            option.textContent = pic;
+            picFilter.appendChild(option);
+          });
+
+          if (uniquePics.indexOf(selectedPic) !== -1) {
+            picFilter.value = selectedPic;
+          }
+          return uniquePics;
+        }
+
+        function updatePicSuggestions(programs) {
+          var picSuggestions = document.getElementById("program-pic-suggestions");
+          var uniquePics = Object.create(null);
+          while (picSuggestions.firstChild) {
+            picSuggestions.removeChild(picSuggestions.firstChild);
+          }
+
+          programs.forEach(function (program) {
+            var pic = typeof program.pic === "string"
+              ? program.pic.trim().replace(/\s+/g, " ")
+              : "";
+            if (pic && !Object.prototype.hasOwnProperty.call(uniquePics, pic.toLocaleLowerCase())) {
+              uniquePics[pic.toLocaleLowerCase()] = pic;
+            }
+          });
+
+          Object.keys(uniquePics).map(function (key) {
+            return uniquePics[key];
+          }).sort(function (a, b) {
+            return a.localeCompare(b);
+          }).forEach(function (pic) {
+            var option = document.createElement("option");
+            option.value = pic;
+            picSuggestions.appendChild(option);
+          });
+        }
+
+        function appendProjectLabels(container, projectValue) {
+          var projectValues = Array.isArray(projectValue) ? projectValue : [projectValue];
+          var projects = [];
+          var seenProjects = Object.create(null);
+          projectValues.forEach(function (value) {
+            String(value || "").split(/\s*(?:[,;|&]|\bdan\b)\s*/i).forEach(function (project) {
+              var normalizedProject = project.trim().replace(/\s+/g, " ");
+              var projectKey = normalizedProject.toLocaleLowerCase();
+              if (normalizedProject && !Object.prototype.hasOwnProperty.call(seenProjects, projectKey)) {
+                seenProjects[projectKey] = true;
+                projects.push(normalizedProject);
+              }
+            });
+          });
+
+          if (projects.length === 0) {
+            container.textContent = "—";
+            return;
+          }
+
+          projects.forEach(function (project, index) {
+            if (index > 0) {
+              var separator = document.createElement("span");
+              separator.className = "project-separator";
+              separator.textContent = "•";
+              container.appendChild(separator);
+            }
+            var label = document.createElement("span");
+            label.className = "project-label";
+            label.textContent = project;
+            container.appendChild(label);
+          });
+        }
+
+        function renderPicDistribution(programs) {
+          var distributionTable = document.getElementById("pic-distribution-table");
+          var distributionList = document.getElementById("pic-distribution-list");
+          var emptyState = document.getElementById("pic-empty-state");
+          var picCount = document.getElementById("pic-count");
+          var people = Object.create(null);
+
+          while (distributionList.firstChild) {
+            distributionList.removeChild(distributionList.firstChild);
+          }
+
+          programs.forEach(function (program) {
+            var pic = typeof program.pic === "string" ? program.pic.trim().replace(/\s+/g, " ") : "";
+            if (!pic) {
+              return;
+            }
+
+            var picKey = pic.toLocaleLowerCase();
+            if (!Object.prototype.hasOwnProperty.call(people, picKey)) {
+              people[picKey] = {
+                name: pic,
+                projects: Object.create(null),
+                statuses: Object.create(null),
+                total: 0
+              };
+            }
+            var person = people[picKey];
+            person.total += 1;
+
+            var project = typeof program.project === "string"
+              ? program.project.trim().replace(/\s+/g, " ")
+              : "";
+            if (project && !Object.prototype.hasOwnProperty.call(
+              person.projects,
+              project.toLocaleLowerCase()
+            )) {
+              person.projects[project.toLocaleLowerCase()] = project;
+            }
+
+            var status = typeof program.stage === "string" && program.stage.trim()
+              ? program.stage.trim()
+              : (typeof program.status === "string" ? program.status.trim() : "");
+            var normalizedStatus = status.toLocaleLowerCase();
+            var statusLabel = normalizedStatus.indexOf("selesai") !== -1
+              ? "Selesai"
+              : normalizedStatus.indexOf("berjalan") !== -1
+                ? "Berjalan"
+                : normalizedStatus.indexOf("perencanaan") !== -1
+                  ? "Perencanaan"
+                  : status || "Belum ditentukan";
+            var statusKey = statusLabel.toLocaleLowerCase();
+            if (!Object.prototype.hasOwnProperty.call(person.statuses, statusKey)) {
+              person.statuses[statusKey] = { label: statusLabel, count: 0 };
+            }
+            person.statuses[statusKey].count += 1;
+          });
+
+          var statusOrder = {
+            "selesai": 0,
+            "berjalan": 1,
+            "perencanaan": 2,
+            "belum ditentukan": 3
+          };
+          Object.keys(people).map(function (key) {
+            return people[key];
+          }).sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+          }).forEach(function (person) {
+            var row = document.createElement("tr");
+            var picCell = document.createElement("td");
+            var projectCell = document.createElement("td");
+            var totalCell = document.createElement("td");
+            var statusCell = document.createElement("td");
+            picCell.textContent = person.name;
+
+            var projectContainer = document.createElement("div");
+            projectContainer.className = "pic-projects";
+            var personProjects = Object.keys(person.projects).map(function (key) {
+              return person.projects[key];
+            }).sort(function (a, b) {
+              return a.localeCompare(b);
+            });
+            appendProjectLabels(projectContainer, personProjects);
+            projectCell.appendChild(projectContainer);
+            totalCell.textContent = person.total + " Laporan";
+
+            var statuses = Object.keys(person.statuses).map(function (key) {
+              return person.statuses[key];
+            }).sort(function (a, b) {
+              var aRank = Object.prototype.hasOwnProperty.call(statusOrder, a.label.toLocaleLowerCase())
+                ? statusOrder[a.label.toLocaleLowerCase()]
+                : 4;
+              var bRank = Object.prototype.hasOwnProperty.call(statusOrder, b.label.toLocaleLowerCase())
+                ? statusOrder[b.label.toLocaleLowerCase()]
+                : 4;
+              return aRank - bRank || a.label.localeCompare(b.label);
+            });
+            statusCell.className = "pic-status-summary";
+            statusCell.textContent = statuses.map(function (status) {
+              return status.count + " " + status.label;
+            }).join(" · ");
+
+            row.appendChild(picCell);
+            row.appendChild(projectCell);
+            row.appendChild(totalCell);
+            row.appendChild(statusCell);
+            distributionList.appendChild(row);
+          });
+
+          var hasPeople = Object.keys(people).length > 0;
+          distributionTable.hidden = !hasPeople;
+          emptyState.hidden = hasPeople;
+          picCount.textContent = Object.keys(people).length + " PIC";
+        }
+
+        function getProgramNameKey(name) {
+          return String(name || "").trim().replace(/\s+/g, " ").toLocaleLowerCase();
+        }
+
+        function isProgramCompleted(program) {
+          var status = [program.stage, program.status].filter(Boolean).join(" ").toLocaleLowerCase();
+          return status.indexOf("selesai") !== -1;
+        }
+
+        function getLatestPrograms(programs) {
+          var latestByName = Object.create(null);
+          programs.forEach(function (program, index) {
+            var name = String(program.name || "").trim().replace(/\s+/g, " ");
+            var nameKey = getProgramNameKey(name);
+            if (!nameKey) {
+              return;
+            }
+
+            var submittedAt = program.submittedAt || program.tanggalLaporan || program.startDate;
+            var timestamp = nilaiUrutTimestamp(submittedAt);
+            var reportIndex = Number(program.reportIndex);
+            if (!Number.isFinite(reportIndex)) {
+              reportIndex = index;
+            }
+            var current = latestByName[nameKey];
+            if (!current || timestamp.localeCompare(current.timestamp) > 0 ||
+                (timestamp === current.timestamp && reportIndex >= current.reportIndex)) {
+              latestByName[nameKey] = {
+                program: Object.assign({}, program, { name: name }),
+                timestamp: timestamp,
+                reportIndex: reportIndex
+              };
+            }
+          });
+
+          return Object.keys(latestByName).map(function (nameKey) {
+            return latestByName[nameKey].program;
+          }).sort(function (a, b) {
+            return a.name.localeCompare(b.name);
+          });
+        }
+
+        function getProgramProgressStorageKey(workspace) {
+          return "d-impact-program-progress-" + encodeURIComponent(String(workspace || "").trim());
+        }
+
+        function getSavedProgramProgress(workspace) {
+          var savedProgress = Object.create(null);
+          try {
+            var rawProgress = localStorage.getItem(getProgramProgressStorageKey(workspace));
+            if (!rawProgress) {
+              return savedProgress;
+            }
+            var parsedProgress = JSON.parse(rawProgress);
+            if (!parsedProgress || typeof parsedProgress !== "object" || Array.isArray(parsedProgress)) {
+              throw new Error("Format progres manual harus berupa objek.");
+            }
+
+            Object.keys(parsedProgress).forEach(function (nameKey) {
+              var progress = parsedProgress[nameKey];
+              if (Number.isInteger(progress) && progress >= 0 && progress <= 100) {
+                savedProgress[nameKey] = progress;
+              } else {
+                console.error("Nilai progres manual tidak valid untuk program:", nameKey, progress);
+              }
+            });
+          } catch (error) {
+            console.error("Gagal membaca progres manual tersimpan.", error);
+            showDatabaseError("Gagal membaca progres manual tersimpan: " + error.message);
+          }
+          return savedProgress;
+        }
+
+        function getProgramProgressValue(program, savedProgress) {
+          if (isProgramCompleted(program)) {
+            return 100;
+          }
+          var nameKey = getProgramNameKey(program.name);
+          return Object.prototype.hasOwnProperty.call(savedProgress, nameKey)
+            ? savedProgress[nameKey]
+            : 0;
+        }
+
+        function getAverageProgramProgress(programs, savedProgress) {
+          if (!programs.length) {
+            return 0;
+          }
+          var totalProgress = programs.reduce(function (total, program) {
+            return total + getProgramProgressValue(program, savedProgress);
+          }, 0);
+          return Math.round(totalProgress / programs.length);
+        }
+
+        function projectViewModeKey(workspace, projectType) {
+          return encodeURIComponent(workspace) + "::" + encodeURIComponent(projectType);
+        }
+
+        function setProjectCardView(card, view) {
+          var projectType = card.getAttribute("data-project");
+          var chartArea = card.querySelector(".project-progress-chart");
+          var manualFields = card.querySelector(".project-tracking-fields");
+          var buttons = card.querySelectorAll(".project-view-toggle-button");
+          var showChart = view === "chart";
+
+          projectViewModes[projectViewModeKey(activeWorkspace, projectType)] = showChart
+            ? "chart"
+            : "manual";
+          buttons.forEach(function (button) {
+            var isActive = button.getAttribute("data-project-view") === view;
+            button.classList.toggle("active", isActive);
+            button.setAttribute("aria-selected", String(isActive));
+          });
+          chartArea.hidden = !showChart;
+          manualFields.hidden = showChart;
+          if (showChart && projectCharts[projectType]) {
+            projectCharts[projectType].resize();
+          }
+        }
+
+        function updateDashboardStats(programs, averageProgress) {
+          var total = programs.length;
+          var planning = programs.filter(function (program) {
+            return program.stage === "Perencanaan & Kajian";
+          }).length;
+          var ongoing = programs.filter(function (program) {
+            return program.stage === "Sedang Berjalan";
+          }).length;
+          var completed = programs.filter(function (program) {
+            return program.stage === "Program Selesai";
+          }).length;
+
+          var sheetCounter = window.hitungDataSheetsPerBidang;
+          document.getElementById("total-program-count").textContent =
+            typeof sheetCounter === "function" ? sheetCounter(activeWorkspace) : total;
+          document.getElementById("planning-count").textContent = planning;
+          document.getElementById("ongoing-count").textContent = ongoing;
+          document.getElementById("completed-count").textContent = completed;
+          document.getElementById("average-progress").textContent =
+            "Rata-rata capaian: " + averageProgress + "%";
+          document.getElementById("planning-share").textContent =
+            (total ? Math.round(planning / total * 100) : 0) + "% dari total";
+          document.getElementById("ongoing-share").textContent =
+            (total ? Math.round(ongoing / total * 100) : 0) + "% dari total";
+          document.getElementById("completed-share").textContent =
+            (total ? Math.round(completed / total * 100) : 0) + "% dari total";
+        }
+
+        function formatDate(date) {
+          if (!date) {
+            return "—";
+          }
+          var parts = date.split("-");
+          return parts.length === 3 ? parts[2] + "/" + parts[1] + "/" + parts[0] : date;
+        }
+
+        function saveProjectProgress(card) {
+          var progressInputs = card.querySelectorAll("[data-program-progress-key]:not(:disabled)");
+          var savedProgress = getSavedProgramProgress(activeWorkspace);
+          var valid = true;
+          progressInputs.forEach(function (input) {
+            var progressValue = input.value.trim();
+            var progress = Number(progressValue);
+            if (progressValue === "" || !Number.isInteger(progress) ||
+                progress < 0 || progress > 100) {
+              input.setCustomValidity("Capaian harus berupa angka bulat antara 0 sampai 100.");
+              valid = false;
+              return;
+            }
+            input.setCustomValidity("");
+            savedProgress[input.getAttribute("data-program-progress-key")] = progress;
+          });
+          if (!valid) {
+            var invalidInput = card.querySelector(
+              "[data-program-progress-key]:not(:disabled):invalid"
+            );
+            if (invalidInput) {
+              invalidInput.reportValidity();
+            }
+            return;
+          }
+
+          setDatabaseStatus("Menyimpan progres manual...");
+          try {
+            localStorage.setItem(
+              getProgramProgressStorageKey(activeWorkspace),
+              JSON.stringify(savedProgress)
+            );
+            clearDatabaseError();
+            setDatabaseStatus("Progres manual tersimpan", "saved");
+            projectViewModes[projectViewModeKey(
+              activeWorkspace,
+              card.getAttribute("data-project")
+            )] = "manual";
+            renderPrograms();
+          } catch (error) {
+            console.error("Gagal menyimpan progres manual.", error);
+            showDatabaseError("Gagal menyimpan progres manual: " + error.message);
+          }
+        }
+
+        function renderProjectCharts(programs, savedProgress) {
+          Object.keys(projectCharts).forEach(function (projectType) {
+            projectCharts[projectType].destroy();
+          });
+          projectCharts = Object.create(null);
+          while (projectProgressCharts.firstChild) {
+            projectProgressCharts.removeChild(projectProgressCharts.firstChild);
+          }
+
+          var projectColors = {
+            "RKAP": "#ea580c",
+            "Investasi": "#2563eb",
+            "Counterpart": "#8b5cf6",
+            "Engineering Services": "#00a879"
+          };
+          if (typeof Chart === "undefined") {
+            showDatabaseError("Chart.js tidak berhasil dimuat; grafik progres tidak tersedia.");
+          }
+
+          projectTypes.forEach(function (projectType) {
+            var projectPrograms = programs.filter(function (program) {
+              return program.project === projectType;
+            });
+            var progressValues = projectPrograms.map(function (program) {
+              return getProgramProgressValue(program, savedProgress);
+            });
+            var averageProgress = projectPrograms.length
+              ? Math.round(progressValues.reduce(function (total, progress) {
+                return total + progress;
+              }, 0) / projectPrograms.length)
+              : 0;
+            var card = document.createElement("section");
+            var heading = document.createElement("div");
+            var headingContent = document.createElement("div");
+            var titleRow = document.createElement("div");
+            var title = document.createElement("h3");
+            var headlineValue = document.createElement("span");
+            var subtitle = document.createElement("small");
+            var viewToggle = document.createElement("div");
+            var chartButton = document.createElement("button");
+            var manualButton = document.createElement("button");
+            var chart = document.createElement("div");
+            var canvas = document.createElement("canvas");
+            var trackingFields = document.createElement("div");
+            var programList = document.createElement("div");
+            var saveButton = document.createElement("button");
+
+            card.className = "panel project-progress-card";
+            card.setAttribute("data-project", projectType);
+            heading.className = "panel-header";
+            title.textContent = projectType;
+            titleRow.className = "project-progress-title-row";
+            headlineValue.className = "project-progress-headline-value";
+            headlineValue.textContent = "Rata-rata: " + averageProgress + "%";
+            titleRow.appendChild(title);
+            titleRow.appendChild(headlineValue);
+            subtitle.textContent = "Capaian Progres";
+            headingContent.appendChild(titleRow);
+            headingContent.appendChild(subtitle);
+            viewToggle.className = "project-view-toggle";
+            viewToggle.setAttribute("role", "tablist");
+            viewToggle.setAttribute("aria-label", "Tampilan capaian " + projectType);
+            chartButton.className = "project-view-toggle-button";
+            chartButton.type = "button";
+            chartButton.textContent = "📊 Grafik";
+            chartButton.setAttribute("role", "tab");
+            chartButton.setAttribute("data-project-view", "chart");
+            manualButton.className = "project-view-toggle-button";
+            manualButton.type = "button";
+            manualButton.textContent = "📝 Input Manual";
+            manualButton.setAttribute("role", "tab");
+            manualButton.setAttribute("data-project-view", "manual");
+            viewToggle.appendChild(chartButton);
+            viewToggle.appendChild(manualButton);
+            heading.appendChild(headingContent);
+            heading.appendChild(viewToggle);
+            card.appendChild(heading);
+
+            chart.className = "project-progress-chart";
+            canvas.setAttribute("aria-label", "Grafik capaian program kerja " + projectType);
+            chart.appendChild(canvas);
+            if (!projectPrograms.length) {
+              var chartEmptyState = document.createElement("div");
+              chartEmptyState.className = "project-progress-empty";
+              chartEmptyState.textContent = "Belum ada program kerja untuk proyek ini.";
+              chart.appendChild(chartEmptyState);
+              canvas.hidden = true;
+            }
+            card.appendChild(chart);
+
+            trackingFields.className = "project-tracking-fields";
+            programList.className = "project-progress-program-list";
+            if (!projectPrograms.length) {
+              var manualEmptyState = document.createElement("div");
+              manualEmptyState.className = "project-progress-empty";
+              manualEmptyState.textContent = "Belum ada program kerja untuk proyek ini.";
+              programList.appendChild(manualEmptyState);
+            }
+            projectPrograms.forEach(function (program) {
+              var row = document.createElement("div");
+              var programName = document.createElement("span");
+              var progressInput = document.createElement("input");
+              var completed = isProgramCompleted(program);
+              var nameKey = getProgramNameKey(program.name);
+              row.className = "project-manual-row";
+              programName.textContent = program.name;
+              progressInput.type = "number";
+              progressInput.min = "0";
+              progressInput.max = "100";
+              progressInput.step = "1";
+              progressInput.required = true;
+              progressInput.value = getProgramProgressValue(program, savedProgress);
+              progressInput.className = "program-progress-input";
+              progressInput.setAttribute("data-program-progress-key", nameKey);
+              progressInput.setAttribute(
+                "aria-label",
+                "Persentase capaian " + program.name
+              );
+              if (completed) {
+                progressInput.disabled = true;
+                progressInput.setAttribute("aria-label", program.name + " selesai, capaian 100 persen");
+              }
+              row.appendChild(programName);
+              row.appendChild(progressInput);
+              programList.appendChild(row);
+            });
+            trackingFields.appendChild(programList);
+            saveButton.className = "btn btn-primary project-tracking-save";
+            saveButton.type = "button";
+            saveButton.textContent = "Simpan";
+            saveButton.disabled = !projectPrograms.some(function (program) {
+              return !isProgramCompleted(program);
+            });
+            saveButton.setAttribute("aria-label", "Simpan progres " + projectType);
+            trackingFields.appendChild(saveButton);
+            card.appendChild(trackingFields);
+
+            projectProgressCharts.appendChild(card);
+            var view = projectViewModes[projectViewModeKey(activeWorkspace, projectType)] || "chart";
+            setProjectCardView(card, view);
+
+            if (projectPrograms.length && typeof Chart !== "undefined") {
+              try {
+                projectCharts[projectType] = new Chart(canvas, {
+                  type: "bar",
+                  data: {
+                    labels: projectPrograms.map(function (program) {
+                      return program.name;
+                    }),
+                    datasets: [{
+                      label: "Capaian",
+                      data: progressValues,
+                      backgroundColor: projectColors[projectType] || "#2563eb",
+                      borderRadius: 5,
+                      maxBarThickness: 44
+                    }]
+                  },
+                  options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                      x: {
+                        ticks: {
+                          autoSkip: true,
+                          maxRotation: 35,
+                          minRotation: 0
+                        }
+                      },
+                      y: {
+                        beginAtZero: true,
+                        max: 100,
+                        ticks: {
+                          stepSize: 25,
+                          callback: function (value) {
+                            return value + "%";
+                          }
+                        }
+                      }
+                    },
+                    plugins: {
+                      legend: { display: false },
+                      tooltip: {
+                        callbacks: {
+                          label: function (context) {
+                            return context.parsed.y + "%";
+                          }
+                        }
+                      }
+                    }
+                  }
+                });
+              } catch (error) {
+                console.error("Gagal merender grafik progres " + projectType + ".", error);
+                showDatabaseError(
+                  "Gagal merender grafik progres " + projectType + ": " + error.message
+                );
+              }
+            }
+          });
+        }
+
+        function updateProgramMonthOptions(programs) {
+          var selectedMonth = programMonthFilter.value;
+          var today = new Date();
+          var currentMonth = today.getFullYear() + "-" +
+            (today.getMonth() < 9 ? "0" : "") + (today.getMonth() + 1);
+          var months = [currentMonth];
+          programs.forEach(function (program) {
+            if (typeof program.startDate === "string" &&
+                /^\d{4}-\d{2}-\d{2}$/.test(program.startDate)) {
+              var month = program.startDate.slice(0, 7);
+              if (months.indexOf(month) === -1) {
+                months.push(month);
+              }
+            }
+          });
+          months.sort(function (a, b) {
+            return b.localeCompare(a);
+          });
+
+          while (programMonthFilter.firstChild) {
+            programMonthFilter.removeChild(programMonthFilter.firstChild);
+          }
+          var allOption = document.createElement("option");
+          allOption.value = "all";
+          allOption.textContent = "Semua Bulan";
+          programMonthFilter.appendChild(allOption);
+          months.forEach(function (month) {
+            var parts = month.split("-");
+            var monthDate = new Date(Number(parts[0]), Number(parts[1]) - 1, 1);
+            var option = document.createElement("option");
+            option.value = month;
+            option.textContent = new Intl.DateTimeFormat("id-ID", {
+              month: "long",
+              year: "numeric"
+            }).format(monthDate) + (month === currentMonth ? " (Bulan Ini)" : "");
+            programMonthFilter.appendChild(option);
+          });
+
+          programMonthFilter.value = selectedMonth === "all" || months.indexOf(selectedMonth) !== -1
+            ? selectedMonth
+            : "all";
+        }
+
+        function renderPrograms() {
+          var programs = typeof window.getProgramReportsForWorkspace === "function"
+            ? window.getProgramReportsForWorkspace(activeWorkspace)
+            : [];
+          programsByWorkspace[activeWorkspace] = programs;
+          updateProgramMonthOptions(programs);
+          updatePicFilterOptions(programs);
+          updatePicSuggestions(programs);
+          renderPicDistribution(programs);
+          var latestPrograms = getLatestPrograms(programs);
+          var savedProgramProgress = getSavedProgramProgress(activeWorkspace);
+          renderProjectCharts(latestPrograms, savedProgramProgress);
+          var searchTerm = programSearch.value.trim().toLocaleLowerCase();
+          var selectedStage = stageFilter.value;
+          var selectedPic = picFilter.value;
+          var selectedMonth = programMonthFilter.value;
+          var sortedPrograms = programs.filter(function (program) {
+            var matchesSearch = !searchTerm ||
+              program.name.toLocaleLowerCase().indexOf(searchTerm) !== -1 ||
+              program.pic.toLocaleLowerCase().indexOf(searchTerm) !== -1;
+            var matchesStage = !selectedStage || program.stage === selectedStage;
+            var matchesPic = !selectedPic || program.pic === selectedPic;
+            var matchesMonth = selectedMonth === "all" ||
+              (program.startDate || "").slice(0, 7) === selectedMonth;
+            return matchesSearch && matchesStage && matchesPic && matchesMonth;
+          });
+          while (programList.firstChild) {
+            programList.removeChild(programList.firstChild);
+          }
+
+          if (programSort.value === "name") {
+            sortedPrograms.sort(function (a, b) {
+              return a.name.localeCompare(b.name);
+            });
+          } else if (programSort.value === "oldest") {
+            sortedPrograms.sort(function (a, b) {
+              var dateComparison = nilaiUrutTimestamp(a.tanggalLaporan || a.startDate)
+                .localeCompare(nilaiUrutTimestamp(b.tanggalLaporan || b.startDate));
+              if (dateComparison !== 0) {
+                return dateComparison;
+              }
+              return (a.reportIndex || 0) - (b.reportIndex || 0);
+            });
+          } else if (programSort.value === "date") {
+            sortedPrograms.sort(function (a, b) {
+              var dateComparison = nilaiUrutTimestamp(b.tanggalLaporan || b.startDate).localeCompare(
+                nilaiUrutTimestamp(a.tanggalLaporan || a.startDate)
+              );
+              if (dateComparison !== 0) {
+                return dateComparison;
+              }
+              return (b.reportIndex || 0) - (a.reportIndex || 0);
+            });
+          } else if (programSort.value === "submitted") {
+            sortedPrograms.sort(function (a, b) {
+              var dateComparison = nilaiUrutTimestamp(b.submittedAt || b.tanggalLaporan || b.startDate)
+                .localeCompare(nilaiUrutTimestamp(a.submittedAt || a.tanggalLaporan || a.startDate));
+              if (dateComparison !== 0) {
+                return dateComparison;
+              }
+              return (b.reportIndex || 0) - (a.reportIndex || 0);
+            });
+          } else {
+            sortedPrograms.sort(function (a, b) {
+              if (!a.targetDate && !b.targetDate) {
+                return 0;
+              }
+              if (!a.targetDate) {
+                return 1;
+              }
+              if (!b.targetDate) {
+                return -1;
+              }
+              return a.targetDate.localeCompare(b.targetDate);
+            });
+          }
+
+          sortedPrograms.forEach(function (program) {
+            var row = document.createElement("tr");
+            var nameCell = document.createElement("td");
+            var projectCell = document.createElement("td");
+            var picCell = document.createElement("td");
+            var periodCell = document.createElement("td");
+            var stageCell = document.createElement("td");
+            var descriptionCell = document.createElement("td");
+            var stageBadge = document.createElement("span");
+
+            nameCell.textContent = program.name;
+            appendProjectLabels(projectCell, program.project);
+            picCell.textContent = program.pic;
+            periodCell.textContent = formatDate(program.tanggalLaporan || program.startDate);
+            stageBadge.className = "program-progress";
+            stageBadge.textContent = String(program.stage || program.status || "—").trim();
+            var normalizedStage = stageBadge.textContent
+              .replace(/\s+/g, " ")
+              .toLocaleLowerCase();
+            if (normalizedStage === "perencanaan & kajian") {
+              stageBadge.classList.add("program-progress-planning");
+            } else if (normalizedStage === "sedang berjalan") {
+              stageBadge.classList.add("program-progress-active");
+            } else if (normalizedStage === "program selesai") {
+              stageBadge.classList.add("program-progress-complete");
+            }
+            stageCell.appendChild(stageBadge);
+            var reportDescription = program.description
+              ? String(program.description)
+              : "Belum ada isi laporan.";
+            if (reportDescription.indexOf(" | ") !== -1) {
+              var targetSeparator = " | Target Selanjutnya: ";
+              var targetSeparatorIndex = reportDescription.indexOf(targetSeparator);
+              var progressText;
+              var targetText;
+              if (targetSeparatorIndex !== -1) {
+                progressText = reportDescription.slice(0, targetSeparatorIndex);
+                targetText = reportDescription.slice(targetSeparatorIndex + targetSeparator.length);
+              } else {
+                var separatorIndex = reportDescription.indexOf(" | ");
+                progressText = reportDescription.slice(0, separatorIndex);
+                targetText = reportDescription.slice(separatorIndex + 3);
+              }
+              progressText = progressText.replace(/^Progres:\s*/, "");
+              targetText = targetText.replace(/^Target Selanjutnya:\s*/, "");
+              var progressLabel = document.createElement("strong");
+              var targetLabel = document.createElement("strong");
+              progressLabel.textContent = "Progres:";
+              targetLabel.textContent = "Target Selanjutnya:";
+              descriptionCell.appendChild(progressLabel);
+              descriptionCell.appendChild(document.createTextNode(" " + progressText));
+              descriptionCell.appendChild(document.createElement("br"));
+              descriptionCell.appendChild(targetLabel);
+              descriptionCell.appendChild(document.createTextNode(" " + targetText));
+            } else {
+              descriptionCell.textContent = reportDescription;
+            }
+            row.appendChild(nameCell);
+            row.appendChild(projectCell);
+            row.appendChild(picCell);
+            row.appendChild(periodCell);
+            row.appendChild(stageCell);
+            row.appendChild(descriptionCell);
+            programList.appendChild(row);
+          });
+
+          if (programs.length > 0 && sortedPrograms.length === 0) {
+            var emptyRow = document.createElement("tr");
+            var emptyCell = document.createElement("td");
+            emptyCell.className = "filter-empty-state";
+            emptyCell.colSpan = 6;
+            emptyCell.textContent = "Tidak ada program yang sesuai dengan filter.";
+            emptyRow.appendChild(emptyCell);
+            programList.appendChild(emptyRow);
+          }
+
+          programEmptyState.hidden = programs.length > 0;
+          programCountBadge.textContent = sortedPrograms.length + " Program";
+          updateDashboardStats(
+            programs,
+            getAverageProgramProgress(latestPrograms, savedProgramProgress)
+          );
+
+          updateWorkspaceCounts();
+        }
+        window.refreshProgramReportTable = renderPrograms;
+
+        function openProgramModal() {
+          modalWorkspaceName.textContent = "Khusus Bidang: " + activeWorkspace;
+          programFormError.textContent = "";
+          programFormError.hidden = true;
+          programModal.hidden = false;
+          var today = new Date();
+          var localDate = new Date(today.getTime() - today.getTimezoneOffset() * 60000)
+            .toISOString().slice(0, 10);
+          document.getElementById("inputTanggal").value = localDate;
+          document.getElementById("program-name").focus();
+        }
+
+        function closeModal() {
+          programModal.hidden = true;
+          programForm.reset();
+          programFormError.textContent = "";
+          programFormError.hidden = true;
+        }
+
+        workspaceCards.forEach(function (card) {
+          card.addEventListener("click", async function (event) {
+            event.preventDefault();
+            activeWorkspace = card.getAttribute("data-title");
+            applyWorkspaceTheme();
+            try {
+              localStorage.setItem(activeWorkspaceStorageKey, activeWorkspace);
+            } catch (error) {
+              console.error("Gagal menyimpan bidang kerja terakhir.", error);
+            }
+            dashboardTitle.textContent = activeWorkspace;
+            dashboardDescription.textContent = card.getAttribute("data-description");
+            renderPrograms();
+            showDashboard();
+            setDatabaseStatus("Memuat program dari Google Sheets...");
+            try {
+              await Promise.all([
+                window.refreshGoogleSheetData(),
+                window.refreshRequestSheetData()
+              ]);
+              clearDatabaseError();
+              setDatabaseStatus("Data Google Sheets diperbarui", "saved");
+              renderPrograms();
+            } catch (error) {
+              console.error("Gagal memuat data bidang dari Google Sheets.", error);
+              showDatabaseError("Gagal memuat data bidang ini: " + error.message);
+            }
+          });
+        });
+
+        projectProgressCharts.addEventListener("click", function (event) {
+          if (!event.target.closest) {
+            return;
+          }
+          var viewButton = event.target.closest(".project-view-toggle-button");
+          var card = event.target.closest(".project-progress-card");
+          if (!card) {
+            return;
+          }
+          if (viewButton) {
+            setProjectCardView(card, viewButton.getAttribute("data-project-view"));
+            return;
+          }
+          if (event.target.closest(".project-tracking-save")) {
+            saveProjectProgress(card);
+          }
+        });
+        homeButton.addEventListener("click", showHome);
+        addProgramButton.addEventListener("click", openProgramModal);
+        loadBackupButton.addEventListener("click", function () {
+          backupFileInput.click();
+        });
+        backupFileInput.addEventListener("change", function (event) {
+          if (event.target.files && event.target.files[0]) {
+            importJsonBackup(event.target.files[0]);
+          }
+        });
+        downloadBackupButton.addEventListener("click", downloadJsonBackup);
+        exportCsvButton.addEventListener("click", exportProgramsCsv);
+        programSort.addEventListener("change", renderPrograms);
+        programMonthFilter.addEventListener("change", renderPrograms);
+        programSearch.addEventListener("input", renderPrograms);
+        stageFilter.addEventListener("change", renderPrograms);
+        picFilter.addEventListener("change", renderPrograms);
+        resetProgramFilters.addEventListener("click", function () {
+          programSearch.value = "";
+          stageFilter.value = "";
+          picFilter.value = "";
+          renderPrograms();
+        });
+        closeProgramModal.addEventListener("click", closeModal);
+        cancelProgramButton.addEventListener("click", closeModal);
+        programModal.addEventListener("click", function (event) {
+          if (event.target === programModal) {
+            closeModal();
+          }
+        });
+
+        document.addEventListener("keydown", function (event) {
+          if (event.key === "Escape" && !programModal.hidden) {
+            closeModal();
+          }
+        });
+
+        programForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          var formData = new FormData(programForm);
+          var inputProgres = document.getElementById("inputProgres");
+          var inputTarget = document.getElementById("inputTarget");
+          var inputTanggal = document.getElementById("inputTanggal");
+          var gabunganLaporan = "Progres: " + inputProgres.value.trim() +
+            " | Target Selanjutnya: " + inputTarget.value.trim();
+          var newProgram = {
+            workspace: activeWorkspace,
+            name: String(formData.get("name") || "").trim(),
+            project: formData.get("project"),
+            stage: formData.get("stage"),
+            pic: String(formData.get("pic") || "").trim(),
+            startDate: inputTanggal.value,
+            tanggalLaporan: inputTanggal.value,
+            targetDate: null,
+            progress: 0,
+            status: formData.get("stage"),
+            submittedAt: new Date().toISOString(),
+            description: gabunganLaporan
+          };
+          var saveButton = programForm.querySelector('button[type="submit"]');
+          if (!newProgram.name || !newProgram.project || !newProgram.stage ||
+              !newProgram.pic || !newProgram.startDate ||
+              !newProgram.tanggalLaporan ||
+              !inputProgres.value.trim() || !inputTarget.value.trim()) {
+            programFormError.textContent = "Semua data wajib diisi sebelum laporan disimpan.";
+            programFormError.hidden = false;
+            return;
+          }
+          saveButton.disabled = true;
+          programFormError.hidden = true;
+          setDatabaseStatus("Mengirim laporan ke Google Sheets...");
+
+          try {
+            await fetch(googleAppsScriptUrl, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+                bidangKerja: activeWorkspace,
+                namaKaryawan: newProgram.pic,
+                tanggalLaporan: inputTanggal.value,
+                judulLaporan: newProgram.name,
+                detailPekerjaan: newProgram.project,
+                status: newProgram.stage,
+                jenisProyek: newProgram.project,
+                isiLaporan: gabunganLaporan,
+                "Isi Laporan": gabunganLaporan
+            })
+        });
+            saveLocalHistoryReport(newProgram);
+            clearDatabaseError();
+            setDatabaseStatus("Laporan berhasil dikirim ke Google Sheets", "saved");
+            closeModal();
+            try {
+              await window.refreshGoogleSheetData();
+            } catch (refreshError) {
+              console.error("Laporan terkirim, tetapi data tabel gagal dimuat ulang.", refreshError);
+              showDatabaseError("Laporan terkirim, tetapi tabel Google Sheets gagal diperbarui: " +
+                refreshError.message);
+            }
+            programMonthFilter.value = "all";
+            programSort.value = "submitted";
+            programSearch.value = "";
+            stageFilter.value = "";
+            picFilter.value = "";
+            renderPrograms();
+          } catch (error) {
+            console.error("Gagal mengirim laporan ke Google Sheets.", error);
+            programFormError.textContent = "Gagal mengirim laporan: " + error.message;
+            programFormError.hidden = false;
+            setDatabaseStatus("Gagal mengirim laporan", "error");
+          } finally {
+            saveButton.disabled = false;
+          }
+        });
+
+        if (activeWorkspace) {
+          var savedWorkspaceCard = Array.from(workspaceCards).find(function (card) {
+            return card.getAttribute("data-title") === activeWorkspace;
+          });
+          applyWorkspaceTheme();
+          dashboardTitle.textContent = activeWorkspace;
+          dashboardDescription.textContent = savedWorkspaceCard.getAttribute("data-description");
+          renderPrograms();
+          showDashboard();
+        }
+
+        initializeDatabase();
+      }());
+    </script>
+    <!-- 1. Library PapaParse -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+
+<!-- 2. Script Penarik Data -->
+<script>
+    // PASTE KEMBALI LINK CSV GOOGLE SHEETS ANDA DI BAWAH INI
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYpm6ZkSM3qxL83kELyrH-ApIbjZ5yQDFe3IJFm3Ef1pkxGV_O1F-rhbrtiOsBvACJSTC8XHBYv_6K/pub?gid=1532082420&single=true&output=csv";
+    const requestCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRYpm6ZkSM3qxL83kELyrH-ApIbjZ5yQDFe3IJFm3Ef1pkxGV_O1F-rhbrtiOsBvACJSTC8XHBYv_6K/pub?gid=39746195&single=true&output=csv";
+    const requestHeaders = [
+        'Timestamp',
+        'Bidang Kerja',
+        'User/Pemilik Proyek',
+        'Nama Pemohon',
+        'Judul Request',
+        'Tanggal Request',
+        'Target Selesai',
+        'Detail Kebutuhan',
+        'Upload Request'
+    ];
+    let semuaDataSheets = [];
+    let semuaRequestSheets = [];
+
+    function normalisasiHeaderRequest(header) {
+        return String(header || '').replace(/^\uFEFF/, '').trim().toLowerCase().replace(/\s+/g, ' ');
+    }
+
+    function ambilNilaiRequest(baris, header) {
+        const headerNormal = normalisasiHeaderRequest(header);
+        const kunciCocok = Object.keys(baris).find(kunci =>
+            normalisasiHeaderRequest(kunci) === headerNormal
+        );
+        const nilai = kunciCocok ? baris[kunciCocok] : '';
+        return nilai === null || typeof nilai === 'undefined' ? '' : String(nilai).trim();
+    }
+
+    // Fungsi pintar untuk mencari nilai kolom tanpa peduli spasi berlebih atau huruf besar/kecil
+    function ambilNilaiKolom(baris, kataKunci) {
+        const kataKunciNormal = kataKunci.trim().toLowerCase().replace(/\s+/g, ' ');
+        const kunciCocok = Object.keys(baris).find(k =>
+            k.trim().toLowerCase().replace(/\s+/g, ' ') === kataKunciNormal
+        ) || Object.keys(baris).find(k =>
+            k.trim().toLowerCase().includes(kataKunciNormal)
+        );
+        const nilai = kunciCocok ? baris[kunciCocok] : '';
+        return nilai === null || typeof nilai === 'undefined' ? '' : String(nilai).trim();
+    }
+
+    function normalisasiTanggalLaporan(value) {
+        const dateValue = String(value || '').trim();
+        const isoDate = dateValue.match(/^(\d{4}-\d{2}-\d{2})/);
+        if (isoDate) return isoDate[1];
+        const slashDate = dateValue.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+        if (slashDate) {
+            const first = Number(slashDate[1]);
+            const second = Number(slashDate[2]);
+            const day = first > 12 ? first : (second > 12 ? second : first);
+            const month = first > 12 ? second : (second > 12 ? first : second);
+            if (day >= 1 && day <= 31 && month >= 1 && month <= 12) {
+                return slashDate[3] + '-' + String(month).padStart(2, '0') + '-' +
+                    String(day).padStart(2, '0');
+            }
+        }
+        const parsedDate = new Date(dateValue);
+        if (dateValue && !Number.isNaN(parsedDate.getTime())) {
+            const year = parsedDate.getFullYear();
+            const month = String(parsedDate.getMonth() + 1).padStart(2, '0');
+            const day = String(parsedDate.getDate()).padStart(2, '0');
+            return year + '-' + month + '-' + day;
+        }
+        return dateValue;
+    }
+
+    function nilaiUrutTimestamp(value) {
+        const dateValue = String(value || '').trim();
+        const indonesia = dateValue.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:\s+(\d{1,2}):(\d{2})(?::(\d{2}))?)?/);
+        if (indonesia) {
+            const day = String(indonesia[1]).padStart(2, '0');
+            const month = String(indonesia[2]).padStart(2, '0');
+            const hour = String(indonesia[4] || '00').padStart(2, '0');
+            const minute = String(indonesia[5] || '00').padStart(2, '0');
+            const second = String(indonesia[6] || '00').padStart(2, '0');
+            return indonesia[3] + '-' + month + '-' + day + 'T' +
+                hour + ':' + minute + ':' + second;
+        }
+        const parsedDate = new Date(dateValue);
+        if (dateValue && !Number.isNaN(parsedDate.getTime())) {
+            return parsedDate.toISOString();
+        }
+        return dateValue;
+    }
+
+    window.getProgramReportsForWorkspace = function(workspace) {
+        const bidangNormal = String(workspace || '').trim().toLowerCase().replace(/\s+/g, ' ');
+        if (!bidangNormal) return [];
+        const jenisProyekPilihan = ["Investasi", "Counterpart", "Engineering Services", "RKAP"];
+        const adalahJenisProyek = value => jenisProyekPilihan.includes(String(value || '').trim());
+        const laporanSheets = semuaDataSheets.filter(baris => {
+            const bidangBaris = ambilNilaiKolom(baris, 'bidang kerja')
+                .toLowerCase()
+                .replace(/\s+/g, ' ');
+            return bidangBaris === bidangNormal;
+        }).map((baris, index) => {
+            const judulLaporan = ambilNilaiKolom(baris, 'judul laporan');
+            const jenisProyek = ambilNilaiKolom(baris, 'jenis proyek');
+            const detailPekerjaan = ambilNilaiKolom(baris, 'detail pekerjaan');
+            const namaProgramSheet = ambilNilaiKolom(baris, 'nama program kerja');
+            let name = judulLaporan || namaProgramSheet || detailPekerjaan;
+            let project = jenisProyek || detailPekerjaan;
+
+            if (adalahJenisProyek(judulLaporan) && !adalahJenisProyek(jenisProyek)) {
+                project = judulLaporan;
+                name = jenisProyek || namaProgramSheet || detailPekerjaan || name;
+            } else if (!adalahJenisProyek(judulLaporan) && adalahJenisProyek(jenisProyek)) {
+                name = judulLaporan || namaProgramSheet || detailPekerjaan;
+                project = jenisProyek;
+            } else if (adalahJenisProyek(judulLaporan) && adalahJenisProyek(jenisProyek) &&
+                       judulLaporan !== jenisProyek) {
+                project = judulLaporan;
+                name = jenisProyek;
+            }
+
+            if (!project && detailPekerjaan && adalahJenisProyek(detailPekerjaan)) {
+                project = detailPekerjaan;
+            }
+            if (!name) {
+                name = namaProgramSheet || detailPekerjaan || judulLaporan;
+            }
+            const timestamp = ambilNilaiKolom(baris, 'timestamp');
+            const tanggalLaporanSheet = ambilNilaiKolom(baris, 'tanggal laporan') ||
+                ambilNilaiKolom(baris, 'tanggalLaporan');
+            const tanggalLaporan = normalisasiTanggalLaporan(tanggalLaporanSheet || timestamp);
+            return {
+                id: index,
+                reportIndex: index,
+                name: name,
+                description: ambilNilaiKolom(baris, 'isi laporan') ||
+                    ambilNilaiKolom(baris, 'detail laporan') ||
+                    ambilNilaiKolom(baris, 'keterangan laporan') ||
+                    ambilNilaiKolom(baris, 'deskripsi'),
+                pic: ambilNilaiKolom(baris, 'pic'),
+                startDate: tanggalLaporan,
+                tanggalLaporan: tanggalLaporan,
+                submittedAt: timestamp,
+                stage: ambilNilaiKolom(baris, 'status'),
+                status: ambilNilaiKolom(baris, 'status'),
+                project: project
+            };
+        }).filter(program => program.name);
+
+        let laporanLokal = [];
+        try {
+            laporanLokal = JSON.parse(localStorage.getItem('d-impact-history-reports') || '[]');
+        } catch (error) {
+            laporanLokal = [];
+        }
+        if (!Array.isArray(laporanLokal)) {
+            laporanLokal = [];
+        }
+
+        laporanLokal
+            .filter(laporan => String(laporan.workspace || '').trim().toLowerCase().replace(/\s+/g, ' ') === bidangNormal)
+            .forEach((laporan, index) => {
+                const lokal = {
+                    id: 'local-' + index,
+                    reportIndex: semuaDataSheets.length + index,
+                    name: laporan.name || '',
+                    description: laporan.description || '',
+                    pic: laporan.pic || '',
+                    startDate: laporan.tanggalLaporan || laporan.startDate || '',
+                    tanggalLaporan: laporan.tanggalLaporan || laporan.startDate || '',
+                    submittedAt: laporan.submittedAt || laporan.tanggalLaporan || laporan.startDate || '',
+                    stage: laporan.stage || '',
+                    status: laporan.status || laporan.stage || '',
+                    project: laporan.project || ''
+                };
+                const existing = laporanSheets.find(item =>
+                    item.name === lokal.name &&
+                    item.pic === lokal.pic &&
+                    item.startDate === lokal.startDate
+                );
+                if (existing) {
+                    existing.description = existing.description || lokal.description;
+                    existing.project = existing.project || lokal.project;
+                    existing.stage = existing.stage || lokal.stage;
+                    existing.status = existing.status || lokal.status;
+                    existing.submittedAt = lokal.submittedAt || existing.submittedAt;
+                } else if (lokal.name) {
+                    laporanSheets.push(lokal);
+                }
+            });
+
+        return laporanSheets;
+    };
+
+    window.hitungDataSheetsPerBidang = function(bidangDipilih) {
+        if (!bidangDipilih) return 0;
+        const bidangNormal = bidangDipilih.trim().toLowerCase().replace(/\s+/g, ' ');
+        return semuaDataSheets.filter(baris => {
+            const bidangBaris = ambilNilaiKolom(baris, 'bidang kerja')
+                .toLowerCase()
+                .replace(/\s+/g, ' ');
+            return bidangBaris === bidangNormal;
+        }).length;
+    };
+
+    function perbaruiJumlahDataBidang() {
+        document.querySelectorAll('.workspace-card').forEach(kartu => {
+            const bidang = kartu.getAttribute('data-title') || '';
+            const penghitung = kartu.querySelector('.workspace-count');
+            if (penghitung) {
+                penghitung.textContent = hitungDataSheetsPerBidang(bidang) + ' Kegiatan';
+            }
+        });
+
+        const dashboard = document.getElementById('dashboard');
+        const judulBidang = document.getElementById('dashboard-title');
+        const totalProgram = document.getElementById('total-program-count');
+        if (dashboard && !dashboard.hidden && judulBidang && totalProgram) {
+            totalProgram.textContent = hitungDataSheetsPerBidang(judulBidang.textContent);
+            tampilkanDataTabel(judulBidang.textContent);
+            if (typeof window.refreshProgramReportTable === 'function') {
+                window.refreshProgramReportTable();
+            }
+        }
+    }
+
+    function tampilkanDataTabel(bidangDipilih) {
+        const tempatData = document.getElementById("tempat-data");
+        if (!tempatData) return;
+        tempatData.innerHTML = "";
+
+        const bidangNormal = bidangDipilih.trim().toLowerCase().replace(/\s+/g, ' ');
+        const semuaRequest = semuaRequestSheets.filter(baris => {
+            const bidangBaris = ambilNilaiRequest(baris, 'Bidang Kerja')
+                .toLowerCase()
+                .replace(/\s+/g, ' ');
+            if (bidangBaris !== bidangNormal) return false;
+
+            return ambilNilaiRequest(baris, 'Judul Request') ||
+                ambilNilaiRequest(baris, 'Detail Kebutuhan') ||
+                ambilNilaiRequest(baris, 'Nama Pemohon') ||
+                ambilNilaiRequest(baris, 'Tanggal Request') ||
+                ambilNilaiRequest(baris, 'Timestamp');
+        });
+
+        const requestMonthFilter = document.getElementById("request-month-filter");
+        if (requestMonthFilter) {
+            const selectedMonth = requestMonthFilter.value || "all";
+            const months = [];
+            semuaRequest.forEach(baris => {
+                const tanggal = normalisasiTanggalLaporan(
+                    ambilNilaiRequest(baris, 'Tanggal Request') ||
+                    ambilNilaiRequest(baris, 'Timestamp')
+                );
+                if (/^\d{4}-\d{2}-\d{2}$/.test(tanggal) && !months.includes(tanggal.slice(0, 7))) {
+                    months.push(tanggal.slice(0, 7));
+                }
+            });
+            months.sort((a, b) => b.localeCompare(a));
+            while (requestMonthFilter.firstChild) {
+                requestMonthFilter.removeChild(requestMonthFilter.firstChild);
+            }
+            const allOption = document.createElement("option");
+            allOption.value = "all";
+            allOption.textContent = "Semua Bulan";
+            requestMonthFilter.appendChild(allOption);
+            months.forEach(month => {
+                const parts = month.split("-");
+                const monthDate = new Date(Number(parts[0]), Number(parts[1]) - 1, 1);
+                const option = document.createElement("option");
+                option.value = month;
+                option.textContent = new Intl.DateTimeFormat("id-ID", {
+                    month: "long",
+                    year: "numeric"
+                }).format(monthDate);
+                requestMonthFilter.appendChild(option);
+            });
+            requestMonthFilter.value = months.includes(selectedMonth) ? selectedMonth : "all";
+        }
+
+        const selectedRequestMonth = requestMonthFilter ? requestMonthFilter.value : "all";
+        const dataTerfilter = semuaRequest.filter(baris => {
+            if (selectedRequestMonth === "all") return true;
+            const tanggal = normalisasiTanggalLaporan(
+                ambilNilaiRequest(baris, 'Tanggal Request') ||
+                ambilNilaiRequest(baris, 'Timestamp')
+            );
+            return tanggal.slice(0, 7) === selectedRequestMonth;
+        });
+        const penghitungRequest = document.getElementById("request-count");
+        if (penghitungRequest) {
+            penghitungRequest.textContent = dataTerfilter.length + " Request";
+        }
+
+        if (dataTerfilter.length === 0) {
+            const row = document.createElement("tr");
+            const cell = document.createElement("td");
+            cell.className = "filter-empty-state";
+            cell.colSpan = 7;
+            cell.textContent = "Belum ada request untuk bidang " + bidangDipilih + ".";
+            row.appendChild(cell);
+            tempatData.appendChild(row);
+            return;
+        }
+
+        dataTerfilter.forEach(baris => {
+            const tr = document.createElement("tr");
+            const values = [
+                ambilNilaiRequest(baris, 'Tanggal Request') ||
+                    ambilNilaiRequest(baris, 'Timestamp') || '-',
+                ambilNilaiRequest(baris, 'User/Pemilik Proyek') || '-',
+                ambilNilaiRequest(baris, 'Nama Pemohon') || '-',
+                ambilNilaiRequest(baris, 'Judul Request') || '-',
+                ambilNilaiRequest(baris, 'Detail Kebutuhan') || '-',
+                ambilNilaiRequest(baris, 'Target Selesai') || '-'
+            ];
+            values.forEach(value => {
+                const cell = document.createElement("td");
+                cell.textContent = value;
+                tr.appendChild(cell);
+            });
+            const linkFile = ambilNilaiRequest(baris, 'Upload Request');
+            const fileCell = document.createElement("td");
+            if (linkFile) {
+                try {
+                    const fileUrl = new URL(linkFile);
+                    if (fileUrl.protocol === "https:" || fileUrl.protocol === "http:") {
+                        const link = document.createElement("a");
+                        link.href = fileUrl.href;
+                        link.target = "_blank";
+                        link.rel = "noopener noreferrer";
+                        link.textContent = "Lihat File";
+                        fileCell.appendChild(link);
+                    } else {
+                        fileCell.textContent = "-";
+                    }
+                } catch (error) {
+                    fileCell.textContent = "-";
+                }
+            } else {
+                fileCell.textContent = "-";
+            }
+            tr.appendChild(fileCell);
+            tempatData.appendChild(tr);
+        });
+    }
+
+    window.refreshGoogleSheetData = async function() {
+        const response = await fetch(csvUrl, { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error('Google Sheets mengembalikan HTTP ' + response.status + '.');
+        }
+        const csvText = await response.text();
+        return new Promise((resolve, reject) => {
+            Papa.parse(csvText, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.errors.length > 0) {
+                        reject(new Error('CSV Google Sheets tidak dapat diparsing: ' +
+                            results.errors[0].message));
+                        return;
+                    }
+                    semuaDataSheets = results.data;
+                    perbaruiJumlahDataBidang();
+                    resolve(semuaDataSheets);
+                },
+                error: reject
+            });
+        });
+    };
+
+    window.refreshRequestSheetData = async function() {
+        const response = await fetch(requestCsvUrl, { cache: 'no-store' });
+        if (!response.ok) {
+            throw new Error('Google Sheets Request mengembalikan HTTP ' + response.status + '.');
+        }
+        const csvText = await response.text();
+        return new Promise((resolve, reject) => {
+            Papa.parse(csvText, {
+                header: true,
+                skipEmptyLines: true,
+                complete: function(results) {
+                    if (results.errors.length > 0) {
+                        reject(new Error('CSV Request Google Sheets tidak dapat diparsing: ' +
+                            results.errors[0].message));
+                        return;
+                    }
+                    const kolomTersedia = (results.meta.fields || []).map(normalisasiHeaderRequest);
+                    const kolomHilang = requestHeaders.filter(header =>
+                        !kolomTersedia.includes(normalisasiHeaderRequest(header))
+                    );
+                    if (kolomHilang.length > 0) {
+                        reject(new Error('Kolom CSV Request tidak ditemukan: ' + kolomHilang.join(', ')));
+                        return;
+                    }
+                    semuaRequestSheets = results.data;
+                    const judulBidang = document.getElementById('dashboard-title');
+                    if (judulBidang && judulBidang.textContent.trim()) {
+                        tampilkanDataTabel(judulBidang.textContent);
+                    }
+                    resolve(semuaRequestSheets);
+                },
+                error: reject
+            });
+        });
+    };
+
+    window.refreshRequestSheetData().catch(error => {
+        console.error("Gagal mengambil data request Google Sheets:", error);
+        const status = document.getElementById('database-status');
+        if (status) status.textContent = "Gagal memuat data request Google Sheets.";
+        const errorMessage = document.getElementById('database-error');
+        if (errorMessage) {
+            errorMessage.textContent = error.message;
+            errorMessage.hidden = false;
+        }
+    });
+
+    window.refreshGoogleSheetData().catch(error => {
+        console.error("Gagal mengambil data Google Sheets:", error);
+        const status = document.getElementById('database-status');
+        if (status) status.textContent = "Gagal memuat data Google Sheets.";
+        const errorMessage = document.getElementById('database-error');
+        if (errorMessage) {
+            errorMessage.textContent = error.message;
+            errorMessage.hidden = false;
+        }
+    });
+
+    // Jalankan filter setiap kali salah satu kartu bidang kerja diklik
+    document.querySelectorAll('.workspace-card').forEach(kartu => {
+        kartu.addEventListener('click', function() {
+            const namaBidang = this.getAttribute('data-title');
+            tampilkanDataTabel(namaBidang);
+        });
+    });
+
+    const requestMonthFilter = document.getElementById("request-month-filter");
+    if (requestMonthFilter) {
+        requestMonthFilter.addEventListener("change", function () {
+            const judulBidang = document.getElementById("dashboard-title");
+            if (judulBidang) {
+                tampilkanDataTabel(judulBidang.textContent);
+            }
+        });
+    }
+</script>
+  </body>
+</html>
