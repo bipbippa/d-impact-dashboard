@@ -980,7 +980,7 @@
         display: grid;
         grid-template-columns: repeat(6, minmax(0, 1fr));
         gap: 14px 16px;
-        padding: 20px 24px 24px;
+        padding: 20px 24px 75px;
       }
 
       .form-field {
@@ -1517,7 +1517,17 @@
 
         .program-form {
           grid-template-columns: 1fr;
-          padding: 18px;
+          padding: 18px 18px 75px;
+        }
+
+        .modal-actions {
+          flex-direction: column-reverse;
+          align-items: stretch;
+        }
+
+        .modal-actions .btn {
+          box-sizing: border-box;
+          width: 100%;
         }
 
         .programs-section {
