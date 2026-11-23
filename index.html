@@ -1947,7 +1947,7 @@
             activeWorkspace = savedWorkspace;
           }
         } catch (error) {
-          console.error("Gagal memulihkan bidang kerja terakhir.", error);
+          console.error("Gagal memulihkan b idang kerja terakhir.", error);
         }
         var programsByWorkspace = Object.create(null);
         var monitoringByWorkspace = Object.create(null);
@@ -3280,21 +3280,26 @@
           setDatabaseStatus("Mengirim laporan ke Google Sheets...");
 
           try {
-            await fetch(googleAppsScriptUrl, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: { "Content-Type": "text/plain;charset=utf-8" },
-            body: JSON.stringify({
-                bidangKerja: activeWorkspace,
-                namaKaryawan: newProgram.pic,
-                tanggalLaporan: inputTanggal.value,
-                judulLaporan: newProgram.name,
-                detailPekerjaan: newProgram.project,
-                status: newProgram.stage,
-                jenisProyek: newProgram.project,
-                isiLaporan: gabunganLaporan,
-                "Isi Laporan": gabunganLaporan
-            })
+            const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfoz9gSUjsd21pMNG0fZpYtGGSyfORgYeDo0IYxEsRXiP_MuQ/formResponse";
+        const [tahun, bulan, hari] = (inputTanggal.value || "").split("-");
+
+        const formData = new URLSearchParams();
+        formData.append("entry.722657631", newProgram.name || "");       // Nama program Kerja
+        formData.append("entry.160748147", newProgram.project || "");    // Jenis Proyek
+        formData.append("entry.296857297", newProgram.stage || "");      // Tahapan Pelaksanaan
+        formData.append("entry.956019666", newProgram.pic || "");        // Nama PIC (sesuaikan jika terbalik dengan isi laporan)
+        formData.append("entry.1065485553", gabunganLaporan || "");      // Isi Laporan (sesuaikan jika terbalik dengan PIC)
+        if (tahun && bulan && hari) {
+          formData.append("entry.48260175_year", tahun);
+          formData.append("entry.48260175_month", String(parseInt(bulan, 10)));
+          formData.append("entry.48260175_day", String(parseInt(hari, 10)));
+        }
+
+        await fetch(formUrl, {
+          method: "POST",
+          mode: "no-cors",
+          headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          body: formData.toString()
         });
             saveLocalHistoryReport(newProgram);
             clearDatabaseError();
