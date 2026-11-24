@@ -3281,36 +3281,38 @@
 
           try {
             const formUrl = "https://docs.google.com/forms/d/e/1FAIpQLSfoz9gSUjsd21pMNG0fZpYtGGSyfORgYeDo0IYxEsRXiP_MuQ/formResponse";
-        const [tahun, bulan, hari] = (inputTanggal.value || "").split("-");
+            const [tahun, bulan, hari] = (inputTanggal.value || "").split("-");
 
-        const formData = new URLSearchParams();
-        formData.append("entry.722657631", newProgram.name || "");       // Nama program Kerja
-        formData.append("entry.160748147", newProgram.project || "");    // Jenis Proyek
-        formData.append("entry.296857297", newProgram.stage || "");      // Tahapan Pelaksanaan
-        formData.append("entry.956019666", newProgram.pic || "");        // Nama PIC (sesuaikan jika terbalik dengan isi laporan)
-        formData.append("entry.1065485553", gabunganLaporan || "");      // Isi Laporan (sesuaikan jika terbalik dengan PIC)
-        if (tahun && bulan && hari) {
-          formData.append("entry.48260175_year", tahun);
-          formData.append("entry.48260175_month", String(parseInt(bulan, 10)));
-          formData.append("entry.48260175_day", String(parseInt(hari, 10)));
-        }
+            const payload = new URLSearchParams();
+            payload.append("entry.722657631", newProgram.name || "");       // Nama program Kerja
+            payload.append("entry.160748147", newProgram.project || "");    // Jenis Proyek
+            payload.append("entry.296857297", newProgram.stage || "");      // Tahapan Pelaksanaan
+            payload.append("entry.956019666", newProgram.pic || "");        // Nama PIC
+            payload.append("entry.1065485553", gabunganLaporan || "");      // Isi Laporan
+            if (tahun && bulan && hari) {
+              payload.append("entry.48260175_year", tahun);
+              payload.append("entry.48260175_month", String(parseInt(bulan, 10)));
+              payload.append("entry.48260175_day", String(parseInt(hari, 10)));
+            }
 
-        await fetch(formUrl, {
-          method: "POST",
-          mode: "no-cors",
-          headers: { "Content-Type": "application/x-www-form-urlencoded" },
-          body: formData.toString()
-        });
+            await fetch(formUrl, {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "application/x-www-form-urlencoded" },
+              body: payload.toString()
+            });
+
             saveLocalHistoryReport(newProgram);
             clearDatabaseError();
-            setDatabaseStatus("Laporan berhasil dikirim ke Google Sheets", "saved");
+            setDatabaseStatus("Laporan berhasil dikirim ke Google Sheets", "success");
             closeModal();
+
+            // Beri jeda 1,5 detik agar Google Sheets selesai menyimpan baris baru sebelum ditarik ulang
+            await new Promise(resolve => setTimeout(resolve, 1500));
             try {
               await window.refreshGoogleSheetData();
             } catch (refreshError) {
-              console.error("Laporan terkirim, tetapi data tabel gagal dimuat ulang.", refreshError);
-              showDatabaseError("Laporan terkirim, tetapi tabel Google Sheets gagal diperbarui: " +
-                refreshError.message);
+              console.error("Laporan terkirim, tetapi data tabel gagal dimuat ulang:", refreshError);
             }
             programMonthFilter.value = "all";
             programSort.value = "submitted";
